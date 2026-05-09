@@ -1,0 +1,11 @@
+# Claude Code / 에이전트 작업 컨텍스트 — 워크스페이스 차원에서만 관리
+CLAUDE.md
+AGENTS.md
+
+# 일반
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
