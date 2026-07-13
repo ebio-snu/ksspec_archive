@@ -1,13 +1,13 @@
-# 기술 규격 (Description Specification) 
+# 장비 규격 (Description Specification) 
 
-본 문서는 한국 산업표준 (KS X 3267/3286/3288, KS B 7958-1..4) 의 스마트 온실 장비 통신 규격을 JSON 파일로 표현하기 위한 **기술 규격 파일 형식** 을 정의한다. 
+본 문서는 한국 산업표준 (KS X 3267/3286/3288, KS B 7958-1..4) 의 스마트 온실 장비 통신 규격을 JSON 파일로 표현하기 위한 **장비 규격 파일 형식** 을 정의한다. 
 
 ## 목차
 
 1. [개요](#1-개요)
 2. [파일명 규칙](#2-파일명-규칙)
-3. [JSON 구조 — 노드 기술 규격](#3-json-구조--노드-기술-규격)
-4. [JSON 구조 — 장비 기술 규격](#4-json-구조--장비-기술-규격)
+3. [JSON 구조 — 노드 장비 규격](#3-json-구조--노드-장비-규격)
+4. [JSON 구조 — 장비 규격](#4-json-구조--장비-규격)
 5. [`CommSpec` — 통신 영역 정의](#5-commspec--통신-영역-정의)
 6. [Items 인코딩](#6-items-인코딩)
 7. [Command code vs register opcode](#7-command-code-vs-register-opcode)
@@ -22,21 +22,21 @@
 
 ## 1. 개요
 
-기술 규격 파일은 한 노드 또는 한 장비의 Modbus 레지스터 맵을 JSON 으로 기술한다.
+장비 규격 파일은 한 노드 또는 한 장비의 Modbus 레지스터 맵을 JSON 으로 기술한다.
 노드 정보(`org`, `mfg`, `type`, `code`, `protocol`, `max_devices`) 가 결정되면
-대응하는 기술 규격 파일이 식별되고, 해당 파일이 어느 주소에서 어떤 값을 어떤 형식
+대응하는 장비 규격 파일이 식별되고, 해당 파일이 어느 주소에서 어떤 값을 어떤 형식
 으로 읽고 쓸지를 정의한다.
 
-기술 규격은 두 가지 입자도(granularity) 로 표현된다:
+장비 규격은 두 가지 입자도(granularity) 로 표현된다:
 
-- **노드 기술 규격** (§3): 한 노드 전체 — 노드 자체 통신 영역 + 슬롯별 장비 배열
-- **장치 기술 규격** (§4): 한 장비 — 노드 기술규격의 `Devices` 안에 인라인 또는 device 템플릿 파일 (§11) 로 분리
+- **노드 장비 규격** (§3): 한 노드 전체 — 노드 자체 통신 영역 + 슬롯별 장비 배열
+- **장비 규격** (§4): 한 장비 — 노드 장비 규격의 `Devices` 안에 인라인 또는 device 템플릿 파일 (§11) 로 분리
 
 ---
 
 ## 2. 파일명 규칙
 
-### 2.1 노드 기술 규격 파일명
+### 2.1 노드 장비 규격 파일명
 
 ```
 {org}_{mfg}_{type}_{code}_{protocol}_{max_devices}.spec
@@ -53,9 +53,9 @@
 
 예: `1_5_2_3_31_5.spec` = org=1 / 제조사=5 / 구동기노드 / 제품코드=3 / KS B 7958 protocol 31 / 최대 5 슬롯.
 
-### 2.2 단일 장비 기술 규격 파일명 (옵션)
+### 2.2 단일 장비 규격 파일명 (옵션)
 
-자율배치(§9) 에서 사용되는 device 단위 템플릿. 노드 기술규격과 구분하기 위해
+자율배치(§9) 에서 사용되는 device 단위 템플릿. 노드 장비 규격과 구분하기 위해
 `type` 자리에 `0` 마커를 두고, `code` 자리에 device code 를 둔다:
 
 ```
@@ -73,7 +73,7 @@
 
 ---
 
-## 3. JSON 구조 — 노드 기술 규격
+## 3. JSON 구조 — 노드 장비 규격
 
 ```json
 {
@@ -116,7 +116,7 @@
 
 ---
 
-## 4. JSON 구조 — 장비 기술 규격
+## 4. JSON 구조 — 장비 규격
 
 ```json
 {
@@ -137,18 +137,30 @@
 
 | Class | Type 예 | 비고 |
 |-------|---------|------|
-| `sensor` | `temperature-sensor`, `humidity-sensor`, `EC-sensor`, `pH-sensor`, `flow-sensor`, ... | KS B 7958-4 부속서 C |
-| `actuator` | `switch/level0..2`, `retractable/level0..2`, `nutrient-supply/level0..3` | level 별로 명령 셋이 다름 |
+| `sensor` | `temperature-sensor`, `humidity-sensor`, `EC-sensor`, `pH-sensor`, `cumulative-flow-sensor`, ... | KS B 7958-4 부속서 C |
+| `actuator` | `switch/level0..2`, `retractable/level0..2`, `nutrient-supply/level0..4` | level 별로 명령 셋이 다름 |
 | `actuator` (표시기) | `fnd` | device code 301 |
 
 전체 device code 표는 KS B 7958-4 부속서 C 참고.
 
 ### 4.2 구동기 level 의미
 
+#### 스위치
 - **level 0**: 상태 read-only (수동 장비)
 - **level 1**: ON/OFF + timed 명령
-- **level 2**: level 1 + 위치/비율 (개폐기 position, 스위치 ratio)
-- **level 3** (양액기): area bitmap zone 선택 + EC/pH 목표값
+- **level 2** 스위치 : level 1 + 비율 (ratio)
+
+#### 개폐기
+- **level 0**: 상태 read-only (수동 장비)
+- **level 1**: OPEN/CLOSE/OFF + timed 명령
+- **level 2**: level 1 + 위치 (position)
+
+#### 양액기
+- **level 0**: 상태 read-only (수동 장비)
+- **level 1**: 1회 관수
+- **level 2**: level 1 + 원수관수
+- **level 3**: level 2 + 양액관수 (start-area, stop-area, on-sec, EC/pH 목표값)
+- **level 4**: level 3 + 구역지정 원수|양액 관수 (area bitmap zone 선택)
 
 ---
 
@@ -204,7 +216,7 @@
 
 ### 5.4 주소 계산 규칙
 
-기술 규격 작성자는 다음 규칙을 따라야 한다:
+장비 규격 작성자는 다음 규칙을 따라야 한다:
 
 1. 첫 장비의 `starting-register` = 노드 read 영역 다음 주소
    (예: 노드 영역 201-203 → 첫 장비 204)
@@ -280,7 +292,7 @@ KS 표준의 외부 노출 **command code** (예: `ON=201`, `OFF=0`, `OPEN=301`,
 
 ## 8. `write.operations[]` — opcode 가변 레이아웃
 
-양액기 Lv2/Lv3, FND 표시기 등 **opcode 마다 레지스터 레이아웃이 다른** 장비를 위한
+양액기 Lv2/Lv4, FND 표시기 등 **opcode 마다 레지스터 레이아웃이 다른** 장비를 위한
 write 영역 정의. flat `write.items` 와 공존한다 (둘 중 하나 사용).
 
 ```jsonc
@@ -318,7 +330,7 @@ items 의 공통 prefix (`[operation, opid]`) 만 유효하다.
 
 ## 9. `Devices` 와 자율배치
 
-노드 기술규격의 `Devices` 배열은 두 가지 모드로 사용된다:
+노드 장비 규격의 `Devices` 배열은 두 가지 모드로 사용된다:
 
 ### 9.1 명시 모드 — `Devices` 에 직접 작성
 
@@ -334,7 +346,7 @@ items 의 공통 prefix (`[operation, opid]`) 만 유효하다.
 4. 노드 자체 영역 끝부터 순차로 `starting-register` 계산
 5. 장비 인스턴스 생성
 
-자율배치는 같은 노드 기술규격으로 사이트별 다양한 슬롯 구성을 지원할 때 유용하다.
+자율배치는 같은 노드 장비 규격으로 사이트별 다양한 슬롯 구성을 지원할 때 유용하다.
 
 ---
 
@@ -344,7 +356,7 @@ items 의 공통 prefix (`[operation, opid]`) 만 유효하다.
 
 ### 10.1 명시 모드
 
-`ConnectedNodes` 배열에 자식 노드 기술규격을 직접 작성:
+`ConnectedNodes` 배열에 자식 노드 장비 규격을 직접 작성:
 
 ```json
 {
@@ -375,7 +387,7 @@ items 의 공통 prefix (`[operation, opid]`) 만 유효하다.
 ### 10.2 자동 발견 모드
 
 `ConnectedNodes` 를 생략하면 파서가 unit_id 2..max_devices+1 범위를 스캔해 자식
-노드를 자동 발견. 자식의 `starting-register` 는 게이트웨이 기술규격의 `CommSpec` 에서
+노드를 자동 발견. 자식의 `starting-register` 는 게이트웨이 장비 규격의 `CommSpec` 에서
 **자동 계산**:
 
 ```
@@ -393,7 +405,7 @@ child[N].starting-register
 
 write 영역도 동일 공식 (base=501, 31+ 는 503 부터).
 
-만약 새 protocol 32 가 자체 영역 4칸을 정의하면 기술규격의 `items` 만 4 개 채우면 된다 —
+만약 새 protocol 32 가 자체 영역 4칸을 정의하면 장비 규격의 `items` 만 4 개 채우면 된다 —
 형식 자체가 protocol 분기를 데이터에 위임한다.
 
 ### 10.3 자식 영역 구조
@@ -425,7 +437,7 @@ write 영역도 3 register: `[operation, opid, control]`.
 ```
 
 - 키: device code 의 문자열 표현 (`"1"`, `"12"`, `"101"`, …)
-- 값: device 기술 규격 객체
+- 값: 장비 규격 객체
 - protocol 무관 — 모든 호출에서 baseline 으로 적용
 
 ### 11.2 Protocol-specific dict 파일
@@ -459,7 +471,7 @@ write 영역도 3 register: `[operation, opid, control]`.
 }
 ```
 
-- 파일 내용 = device 기술 규격 객체 그 자체 (dict 의 **값** 부분만)
+- 파일 내용 = 장비 규격 객체 그 자체 (dict 의 **값** 부분만)
 - 파일명의 4번째 세그먼트가 device code 로 자동 매핑
 - 노드 protocol 이 5번째 세그먼트와 일치할 때만 활성화
 

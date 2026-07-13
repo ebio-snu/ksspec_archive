@@ -1,10 +1,10 @@
 {
   "Class" : "node",
   "Type" : "integrated-node/level1",
-  "Model" : "DEF-NUT-NODE-LV3",
-  "Name" : "디폴트 지정구역 제어가능 양액기노드 레벨3",
+  "Model" : "DEF-NUT-NODE-LV4",
+  "Name" : "디폴트 지정구역 제어가능 양액기노드 레벨4",
   "CommSpec" : {
-    "KS X 3288" : {
+    "KS B 7958" : {
       "read" : {
         "starting-register" : 201,
         "items": ["status", "opid", "control"]

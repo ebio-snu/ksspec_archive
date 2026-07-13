@@ -2,6 +2,6 @@
     "name": "KS Standard Defaults",
     "org": 0,
     "mfg": 0,
-    "description": "패키지 내장 기본 vendor pack — KS 표준 reference spec. KSDEVICE_SPEC_DIR 또는 cwd/specs/ 의 외부 vendor pack 으로 오버라이드 가능.",
-    "version": "0.3.12"
+    "description": "패키지 내장 기본 vendor pack — KS 표준 reference spec.",
+    "version": "1.0.3"
 }

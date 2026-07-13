@@ -3,7 +3,7 @@
     "2": { "Class" : "sensor", "Type" : "humidity-sensor", "Model" : "SEN-HUM", "Name" : "습도센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "3": { "Class" : "sensor", "Type" : "dewpoint-sensor", "Model" : "SEN-DEW", "Name" : "이슬점센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "4": { "Class" : "sensor", "Type" : "rain-detector", "Model" : "SEN-RAIN-D", "Name" : "감우센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
-    "5": { "Class" : "sensor", "Type" : "flow-sensor", "Model" : "SEN-FLOW", "Name" : "유량센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
+    "5": { "Class" : "sensor", "Type" : "cumulative-flow-sensor", "Model" : "SEN-FLOW", "Name" : "누적유량센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } },
     "6": { "Class" : "sensor", "Type" : "rainfall-sensor", "Model" : "SEN-RAIN-G", "Name" : "강우센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "7": { "Class" : "sensor", "Type" : "pyranometer", "Model" : "SEN-RAD", "Name" : "일사센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "8": { "Class" : "sensor", "Type" : "wind-speed-sensor", "Model" : "SEN-WSPEED", "Name" : "풍속센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
