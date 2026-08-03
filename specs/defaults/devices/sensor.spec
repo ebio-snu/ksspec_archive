@@ -16,5 +16,11 @@
     "15": { "Class" : "sensor", "Type" : "tensiometer", "Model" : "SEN-TEN", "Name" : "토양장력센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "16": { "Class" : "sensor", "Type" : "pH-sensor", "Model" : "SEN-pH", "Name" : "pH센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "17": { "Class" : "sensor", "Type" : "soil-temperature-sensor", "Model" : "SEN-STEMP", "Name" : "지온센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
-    "18": { "Class" : "sensor", "Type" : "weight-sensor", "Model" : "SEN-WGT", "Name" : "무게센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }
+    "18": { "Class" : "sensor", "Type" : "weight-sensor", "Model" : "SEN-WGT", "Name" : "무게센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } },
+    "19": { "Class" : "sensor", "Type" : "low-water-level-detector", "Model" : "SEN-LWL", "Name" : "저수위센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } },
+    "20": { "Class" : "sensor", "Type" : "high-temperature-detector", "Model" : "SEN-HTEMP", "Name" : "고온센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } },
+    "21": { "Class" : "sensor", "Type" : "watt-hour-meter", "Model" : "SEN-WHM", "Name" : "전력량계", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } },
+    "22": { "Class" : "sensor", "Type" : "current-sensor", "Model" : "SEN-CUR", "Name" : "전류센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } },
+    "23": { "Class" : "sensor", "Type" : "battery-sensor", "Model" : "SEN-BAT", "Name" : "배터리잔량센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } },
+    "24": { "Class" : "sensor", "Type" : "event-trigger", "Model" : "SEN-EVT", "Name" : "이벤트발생기", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }
 }
