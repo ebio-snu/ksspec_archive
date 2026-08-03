@@ -13,7 +13,7 @@
 ```
 ksspec_archive/
 ├── docs/
-│   └── SPEC.md              # 장비 규격 파일 형식 정의 (530줄)
+│   └── SPEC.md              # 장비 규격 파일 형식 정의 — 정본 (597줄)
 ├── specs/
 │   └── defaults/            # 디폴트 장비 규격 패키지 — KS 표준 reference (org=0, mfg=0)
 │       ├── vendor.json

@@ -137,11 +137,11 @@
 
 | Class | Type 예 | 비고 |
 |-------|---------|------|
-| `sensor` | `temperature-sensor`, `humidity-sensor`, `EC-sensor`, `pH-sensor`, `cumulative-flow-sensor`, ... | KS B 7958-4 부속서 C |
+| `sensor` | `temperature-sensor`, `humidity-sensor`, `EC-sensor`, `pH-sensor`, `cumulative-flow-sensor`, ... | KS B 7958-5 부속서 A.2 |
 | `actuator` | `switch/level0..2`, `retractable/level0..2`, `nutrient-supply/level0..4` | level 별로 명령 셋이 다름 |
 | `actuator` (표시기) | `fnd` | device code 301 |
 
-전체 device code 표는 KS B 7958-4 부속서 C 참고.
+전체 device code 표는 KS B 7958-5 부속서 A.2 (장치의 종류) 참고.
 
 ### 4.2 구동기 level 의미
 
@@ -336,6 +336,71 @@ items 의 공통 prefix (`[operation, opid]`) 만 유효하다.
 
 각 슬롯 장비를 §4 의 형식으로 작성. 각 장비의 `starting-register` 도 직접 명시.
 
+#### 9.1.1 `Devices` 인덱스 = devinfo 슬롯 (필수 계약)
+
+파서는 `Devices` 배열을 **인덱스 순서로** devinfo 슬롯과 짝짓는다:
+
+```python
+for idx, dev_spec in enumerate(spec["Devices"]):
+    device_code = devinfo[idx]        # 배열 위치가 곧 슬롯 번호
+```
+
+따라서 다음 네 가지가 **장비 규격 작성자의 의무**다:
+
+| 규칙 | 내용 |
+|------|------|
+| 인덱스 = 슬롯 | `Devices[i]` 는 **1-based 슬롯 번호 `i+1`** 이며 devinfo 레지스터의 `i` 번째 값과 대응한다 |
+| 길이 일치 | `len(Devices)` 는 `nodeinfo` 의 **연결장비수**(6번째 값) 와 같아야 한다 |
+| 빈 슬롯 유지 | **미장착 슬롯(devinfo=0)도 항목을 빼면 안 된다.** 빼는 순간 이후 슬롯이 전부 한 칸씩 당겨져 장비 종류가 어긋난다 |
+| 주소 연속 | 같은 `Class` 가 이어지는 구간에서는 `starting-register` 가 등차로 이어져야 한다 |
+
+> **왜 위험한가**: 어긋난 슬롯의 양옆이 `devinfo=0` 이면 **devinfo 코드 대조만으로는
+> 통과한다** (양쪽 다 활성 슬롯이 아니라 검사 조건에 걸리지 않는다). 실제 사고 사례로,
+> 34개 장비 규격에서 미장착 슬롯 2개가 누락돼 36슬롯 노드의 슬롯 30·31·32·34 가
+> 잘못된 장비로 인식됐는데 코드 대조는 통과했다. 이 유형은 **주소 연속성 검사**로만
+> 잡힌다 (§9.1.3).
+
+#### 9.1.2 미장착 슬롯 표기 — `Type: "reserved"`
+
+장비가 붙지 않는 슬롯은 **삭제하지 말고** 예약어로 자리를 지킨다:
+
+```json
+{
+  "Class": "sensor",
+  "Type": "reserved",
+  "Model": "",
+  "Name": "예비슬롯29",
+  "CommSpec": { "KS X 3267": { "read": { "starting-register": 311, "items": ["value", "status"] } } }
+}
+```
+
+- `reserved` 는 장비 코드 0 으로 해석돼 **파서가 인스턴스를 만들지 않는다**.
+- "알 수 없는 Type" 경고(§9.1.3) 대상에서 **제외**된다 — 오타와 의도적 예비 슬롯을 구분하기 위한 예약어다.
+- `CommSpec.read` 는 그 슬롯이 차지하는 주소 공간을 그대로 적는다 (주소 연속성 유지).
+
+#### 9.1.3 검증 규칙
+
+§9.1.1 의 계약 위반은 다음 검사로 드러난다. 파서와 장비 규격 작성 도구는 노드 장비
+규격을 로드할 때 이 검사를 수행하고 결과를 보고해야 한다:
+
+| `code` | level | 검사 |
+|--------|-------|------|
+| `slot-code-mismatch` | warning | 슬롯의 devinfo 코드 ↔ 규격 `Type` 코드 불일치 |
+| `unknown-type` | warning | 알 수 없는 `Type` — 코드 0 이라 슬롯 검사가 꺼지므로 타입당 1회 경고 |
+| `length-mismatch` | warning | `len(Devices)` ↔ 연결장비수 ↔ `len(devinfo)` 불일치 |
+| `devinfo-overflow` | error | devinfo 활성 슬롯이 `Devices` 범위 초과 — 조용히 누락됨 |
+| `address-gap` | warning | 같은 `Class` 구간에서 `starting-register` 갭 — 슬롯 누락 의심 |
+| `address-overlap` | error | 주소 역행·중첩 |
+
+> `Class` 가 바뀌는 경계(예: 센서 블록 → 양액기 블록)는 영역 분리로 보고 주소 검사를
+> 건너뛴다. `Devices` 가 빈 배열(자율배치) 이면 대조할 슬롯 정의가 없으므로 검사 대상이 아니다.
+
+> **참고 구현**: KSDevice 0.3.31+ 는 본 절의 표기와 검사를
+> `ksdevice.common.spec_validation.validate_node_spec()` 으로 제공하며, 서버
+> `Node.__init__` 과 클라이언트 `NodeSpec.__init__` 이 기동 시 자동 호출한다. 패키지
+> 번들 `999_999_2_1_10_24.spec` 이 `reserved` 표기의 참조 예다 (스위치8 + 개폐기2 +
+> 예비 14).
+
 ### 9.2 자율배치 모드 — `Devices: []`
 
 `Devices` 를 빈 배열 `[]` 로 두면 파서가 다음 절차로 자동 배치:
@@ -519,12 +584,14 @@ protocol-specific 과 단일 장비는 노드 protocol 이 일치할 때만 적�
 
 표준 간 충돌 시 **KS B 7958 (2024)** 이 우선한다.
 
-다음 표준들은 제정 협의 중 (P1~P4) 으로, 제정되면 본 표준들이 우선한다:
+다음 표준들은 제정 협의 중 (P1~P5) 으로, 제정되면 본 표준들이 우선한다
+(2026-draft-rev4 기준 — rev2 에서 4부 → 5부로 재배치됨):
 
-- **KS B 7958-1** (P1)
-- **KS B 7958-2** (P2)
-- **KS B 7958-3** (P3)
-- **KS B 7958-4** (P4)
+- **KS B 7958-1** (P1) — 일반 요구사항
+- **KS B 7958-2** (P2) — 부가 장비와 추가 기능
+- **KS B 7958-3** (P3) — 노드 발견 (mDNS·DNS-SD, rev2 신설)
+- **KS B 7958-4** (P4) — 장비 규격의 확장 (옛 P3)
+- **KS B 7958-5** (P5) — 코드일람표 (옛 P4)
 
 코드 발급/협의는 서울대학교, 한국농업기술진흥원 등 표준화 기관에 문의한다.
 
