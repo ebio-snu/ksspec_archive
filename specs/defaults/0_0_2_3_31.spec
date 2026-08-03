@@ -4,7 +4,7 @@
   "Model" : "DEF-ACTNODE-001",
   "Name" : "표시기노드 노드",
   "CommSpec" : {
-    "KS B 7958:2027" : {
+    "KS B 7958" : {
       "read" : {
         "starting-register" : 201,
         "items": ["opid", "status"]
