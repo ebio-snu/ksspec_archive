@@ -1,0 +1,47 @@
+{
+    "version": 1,
+    "description": "protocol 코드 ↔ 허용 CommSpec 라벨. 라벨을 도구 코드에 박지 않기 위한 정본 데이터. 규범 정의는 SPEC.md §5.5.",
+
+    "protocols": {
+        "10": {
+            "standard": "KS X 3267",
+            "labels": ["KS X 3267"]
+        },
+        "20": {
+            "standard": "KS X 3288",
+            "labels": ["KS X 3288"]
+        },
+        "30": {
+            "standard": "KS B 7958",
+            "labels": ["KS B 7958"]
+        },
+        "31": {
+            "standard": "KS B 7958",
+            "labels": ["KS B 7958"],
+            "note": "KS B 7958 의 다음 개정판. 개정 연도가 확정되지 않아 연도를 적지 않는다. 확정되면 labels 에 추가하고 기존 표기는 그대로 둔다 — 30 과 31 은 같은 표준을 가리키므로 코드 ↔ 라벨은 1:N 이다."
+        }
+    },
+
+    "device-catalog": {
+        "protocol-from-filename-suffix": true,
+        "generic-file-is-protocol-agnostic": true,
+        "allow-mixed-labels": true,
+        "note": "SPEC.md §11. 접미사가 붙은 파일(sensor_31.spec)은 그 protocol 전용이고, 접미사 없는 파일(sensor.spec · actuator.spec)은 protocol 무관 baseline 이다. 한 파일 안에 서로 다른 라벨이 섞이는 것은 정상이다 — device-label-exceptions 참조."
+    },
+
+    "device-label-exceptions": [
+        {
+            "device-codes": ["201", "202", "203", "204", "205"],
+            "types": [
+                "nutrient-supply/level0",
+                "nutrient-supply/level1",
+                "nutrient-supply/level2",
+                "nutrient-supply/level3",
+                "nutrient-supply/level4"
+            ],
+            "labels": ["KS X 3288"],
+            "reason": "양액기는 KS X 3267 이 정의하지 않는다 — KS X 3288 이 정의한다. 따라서 protocol 10 노드에 달린 양액기도 라벨은 KS X 3288 이다. protocol 30·31 노드에서는 KS B 7958 을 그대로 쓴다.",
+            "example": "specs/defaults/devices/actuator.spec 코드 201~205"
+        }
+    ]
+}

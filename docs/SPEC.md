@@ -82,7 +82,7 @@
     "Model": "FARMOS-AN-LV1-5",
     "Name": "FarmOS 5채널 구동기노드 Lv1",
     "CommSpec": {
-        "KS B 7958:2027": {
+        "KS B 7958": {
             "read":  { "starting-register": 201, "items": ["status", "opid", "control"] },
             "write": { "starting-register": 501, "items": ["operation", "opid", "control"] }
         }
@@ -109,10 +109,14 @@
 |------|-----------|
 | `sensor-node/level0..1` | 센서 노드 (type=1) |
 | `actuator-node/level0..1`, `actuator-node/auto` | 구동기 노드 (type=2) |
-| `nutrient-node/level0..3` | 양액기 / 복합 노드 (type=3) |
+| `integrated-node/level1` | 복합 노드 (type=3) — 센서와 구동기를 함께 단다 |
 | `gateway-node/level0..1` | 게이트웨이 노드 (type=4) |
 
 `level` 은 KS 표준이 정의한 기능 등급 (level 0=수동, 1=기본 제어, 2+=고급).
+
+**노드의 `level` 과 장비의 `level` (§4.2) 은 별개다.** 예컨대 `0_0_3_5_31_21.spec` 은
+노드 자체는 `integrated-node/level1` 이면서 슬롯에 `nutrient-supply/level4` 를 단다 —
+모델명의 "레벨4" 는 **양액기 장비의 등급**이지 노드의 등급이 아니다.
 
 ---
 
@@ -125,7 +129,7 @@
     "Model": "FARMOS-SW1",
     "Name": "전등1",
     "CommSpec": {
-        "KS B 7958:2027": {
+        "KS B 7958": {
             "read":  { "starting-register": 204, "items": ["opid", "status", "remain-time"] },
             "write": { "starting-register": 504, "items": ["operation", "opid", "hold-time"] }
         }
@@ -171,7 +175,7 @@
 
 ```json
 "CommSpec": {
-    "KS B 7958:2027": { "read": {...}, "write": {...} }
+    "KS B 7958": { "read": {...}, "write": {...} }
 }
 ```
 
@@ -224,6 +228,42 @@
 3. write 영역도 동일 규칙 (501 부터)
 
 작성된 주소는 그대로 신뢰되어야 한다 — 파서가 자동 보정하지 않는다.
+
+### 5.5 라벨과 protocol 코드 — `specs/protocols.json`
+
+파서는 라벨 문자열을 대조하지 않고 **첫 키만** 집는다(§5). 그래서 라벨이 틀려도
+동작이 바뀌지 않고, **틀린 채로 영원히 남는다.** 어떤 라벨이 어떤 protocol 코드에
+허용되는지는 [`../specs/protocols.json`](../specs/protocols.json) 이 정하며,
+그 파일이 **유일한 원천**이다 — 검사 도구가 라벨을 상수로 들고 있으면 안 된다.
+
+| protocol 코드 | 표준 | 라벨 |
+|---|---|---|
+| `10` | KS X 3267 | `KS X 3267` |
+| `20` | KS X 3288 | `KS X 3288` |
+| `30` | KS B 7958 | `KS B 7958` |
+| `31` | KS B 7958 (다음 개정판) | `KS B 7958` |
+
+코드 ↔ 라벨은 **1:N** 이다. `30` 과 `31` 은 같은 표준을 가리키므로 라벨이 같다.
+`31` 개정판의 연도가 확정되면 `protocols.json` 의 `labels` 에 **추가**하고 기존 표기는
+그대로 둔다 — 새 파일부터 새 라벨을 쓰면 되고, 이미 발행된 파일은 여전히 유효하다.
+**연도를 확정하기 전까지는 `KS B 7958:2027` 같은 표기를 쓰지 않는다.**
+
+#### Device 템플릿의 protocol 귀속 (§11)
+
+- 접미사가 붙은 파일(`sensor_31.spec`)은 **그 protocol 전용**이다. 라벨도 그 protocol 것을 쓴다.
+- 접미사 없는 파일(`sensor.spec` · `actuator.spec`)은 **protocol 무관 baseline** 이다 (§11.1).
+
+#### 한 파일 안에 라벨이 섞이는 것은 정상이다
+
+장비의 라벨은 **그 장비를 정의한 표준**을 가리키지, 노드의 protocol 을 가리키지 않는다.
+양액기(`nutrient-supply/level0..4`, 코드 201~205)는 KS X 3267 이 정의하지 않고
+KS X 3288 이 정의하므로, protocol 10 노드에 달려도 라벨은 `KS X 3288` 이다.
+`devices/actuator.spec` 이 스위치·개폐기·표시기는 `KS X 3267`, 양액기는 `KS X 3288` 로
+적는 것이 이 때문이다. 이런 예외는 `protocols.json` 의 `device-label-exceptions` 에
+데이터로 적는다.
+
+> protocol 30·31 노드에서는 양액기도 `KS B 7958` 을 쓴다 — 그 표준이 양액기까지
+> 함께 정의하기 때문이다.
 
 ---
 
