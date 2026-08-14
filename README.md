@@ -28,6 +28,8 @@ ksspec_archive/
 ```
 
 상세 파일 형식·인코딩·자율배치·게이트웨이 자식 처리 등은 [`docs/SPEC.md`](docs/SPEC.md) 참조.
+공식 규격의 변경·검토·테스트 데이터·릴리스 관리 규칙은 [`docs/SPEC_MANAGEMENT.md`](docs/SPEC_MANAGEMENT.md) 참조.
+프로젝트 소개 사이트는 GitHub Pages에서 배포하며, 사이트 원본은 [`site/`](site/)에 있다.
 
 ## 디폴트 장비 규격 패키지
 
