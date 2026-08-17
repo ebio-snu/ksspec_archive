@@ -302,7 +302,7 @@ KS X 3288 이 정의하므로, protocol 10 노드에 달려도 라벨은 `KS X 3
 ```python
 import struct
 # float 인코딩 (4 bytes → 2 regs)
-hi, lo = struct.unpack('<2H', struct.pack('<f', 23.5))
+lo, hi = struct.unpack('<2H', struct.pack('<f', 23.5))
 registers[addr]   = lo   # low word at lower addr
 registers[addr+1] = hi
 ```
