@@ -1,14 +1,26 @@
 {
     "version": 1,
-    "description": "KS 표준 부속서의 코드 일람표. 코드값을 도구·프롬프트에 손으로 옮겨 적지 않기 위한 정본 데이터. 규범 정의는 각 항목의 source 가 가리키는 표준 조항이다.",
+    "description": "KS 표준 부속서의 코드 일람표. 코드값을 도구·프롬프트에 손으로 옮겨 적지 않기 위한 정본 데이터. 각 값은 tier(normative|draft)와 std(근거 표준)를 갖는다.",
     "sources": {
         "KS X 3267:2022": {
             "annex": "부속서 B (규격) 코드 일람표",
+            "tier": "normative",
             "status": "발행본",
             "protocols": [
                 "10"
             ],
-            "note": "protocol 10 에 적용된다. 부속서 B 는 규격(normative) 부속서다."
+            "note": "부속서 B 는 규격(normative) 부속서다."
+        },
+        "KS B 7958-5": {
+            "annex": "부속서 A.2(장치의 종류) · B.1(상태) · B.2(제어권) · B.3(명령)",
+            "tier": "draft",
+            "status": "제정 협의 중 — 발행 전",
+            "protocols": [
+                "30",
+                "31"
+            ],
+            "via": "ksdevice `src/ksdevice/common/constants.py` (참조 구현). 원문 docx 초안은 아카이브에 두지 않는다.",
+            "note": "**초안이다.** 발행 시 값이 바뀔 수 있다. 소비처는 tier 를 확인하고 draft 값에 근거한 판정을 단정하지 말 것. protocols.json 의 protocol 31 이 '다음 개정판'을 가리키는 것과 같은 트랙이다."
         }
     },
     "coverage": {
@@ -16,12 +28,11 @@
             "product-type",
             "status",
             "operation",
-            "control"
-        ],
-        "missing": [
+            "control",
             "nutrient-alert"
         ],
-        "note": "missing 항목은 아카이브에 아직 데이터가 없다는 뜻이다. 소비처는 이 목록을 보고 '아카이브에 근거가 없음'을 구분해야 하며, 값을 추측하거나 구현체에서 옮겨 오면 안 된다."
+        "missing": [],
+        "note": "tier=draft 항목은 KS B 7958-5 제정 전 값이다. 발행 시 재확인이 필요하며, 소비처는 draft 값에 근거한 판정을 단정하지 말 것."
     },
     "codes": {
         "product-type": {
@@ -33,17 +44,32 @@
                 {
                     "code": 1,
                     "name": "SENSOR_NODE",
-                    "meaning": "센서 노드"
+                    "meaning": "센서 노드",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 2,
                     "name": "ACTUATOR_NODE",
-                    "meaning": "구동기 노드"
+                    "meaning": "구동기 노드",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 3,
                     "name": "COMPOSITE_NODE",
-                    "meaning": "복합 노드"
+                    "meaning": "복합 노드",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 }
             ]
         },
@@ -57,43 +83,78 @@
                     "code": 0,
                     "name": "READY",
                     "scope": "공통",
-                    "meaning": "정상, 준비중, 정지"
+                    "meaning": "정상, 준비중, 정지",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 1,
                     "name": "ERROR",
                     "scope": "공통",
-                    "meaning": "오류"
+                    "meaning": "오류",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 2,
                     "name": "BUSY",
                     "scope": "공통",
-                    "meaning": "처리 불능"
+                    "meaning": "처리 불능",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 3,
                     "name": "VOLTAGE_ERROR",
                     "scope": "공통",
-                    "meaning": "동작 전압 이상"
+                    "meaning": "동작 전압 이상",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 4,
                     "name": "CURRENT_ERROR",
                     "scope": "공통",
-                    "meaning": "동작 전류 이상"
+                    "meaning": "동작 전류 이상",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 5,
                     "name": "TEMPERATURE_ERROR",
                     "scope": "공통",
-                    "meaning": "동작 온도 이상"
+                    "meaning": "동작 온도 이상",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 6,
                     "name": "FUSE_ERROR",
                     "scope": "공통",
-                    "meaning": "휴즈 이상"
+                    "meaning": "휴즈 이상",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "range": [
@@ -102,55 +163,100 @@
                     ],
                     "name": "RESERVED",
                     "scope": "공통",
-                    "meaning": "공통 예약(reserved)"
+                    "meaning": "공통 예약(reserved)",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 101,
                     "name": "NEED_REPLACE",
                     "scope": "센서",
-                    "meaning": "센서 및 소모품 교체 요망"
+                    "meaning": "센서 및 소모품 교체 요망",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 102,
                     "name": "NEED_CALIBRATION",
                     "scope": "센서",
-                    "meaning": "센서 교정 요망"
+                    "meaning": "센서 교정 요망",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 103,
                     "name": "NEED_CHECK",
                     "scope": "센서",
-                    "meaning": "센서 점검 필요"
+                    "meaning": "센서 점검 필요",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 201,
                     "name": "ON",
                     "scope": "스위치형 구동기",
-                    "meaning": "작동 중(WORKING)"
+                    "meaning": "작동 중(WORKING)",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 299,
                     "name": "USER_CONTROL",
                     "scope": "스위치형 구동기",
-                    "meaning": "사용자 제어 중"
+                    "meaning": "사용자 제어 중",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 301,
                     "name": "OPENING",
                     "scope": "개폐형 구동기",
-                    "meaning": "여는 중"
+                    "meaning": "여는 중",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 302,
                     "name": "CLOSING",
                     "scope": "개폐형 구동기",
-                    "meaning": "닫는 중(CLOSING)"
+                    "meaning": "닫는 중(CLOSING)",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 399,
                     "name": "MANUAL_CONTROL",
                     "scope": "개폐형 구동기",
-                    "meaning": "사용자 제어 중"
+                    "meaning": "사용자 제어 중",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "range": [
@@ -159,7 +265,84 @@
                     ],
                     "name": "VENDOR_SPECIFIC_ERROR",
                     "scope": "기타",
-                    "meaning": "제조사 정의 에러 코드"
+                    "meaning": "제조사 정의 에러 코드",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
+                },
+                {
+                    "code": 202,
+                    "name": "MANUAL_WORKING",
+                    "scope": "스위치형 구동기",
+                    "meaning": "수동 작동 중",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 303,
+                    "name": "MANUAL_OPENING",
+                    "scope": "개폐형 구동기",
+                    "meaning": "수동 여는 중",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 304,
+                    "name": "MANUAL_CLOSING",
+                    "scope": "개폐형 구동기",
+                    "meaning": "수동 닫는 중",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 401,
+                    "name": "PREPARING",
+                    "scope": "양액기",
+                    "meaning": "관수 준비 중",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 402,
+                    "name": "SUPPLYING",
+                    "scope": "양액기",
+                    "meaning": "관수 중",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 403,
+                    "name": "FINISHING",
+                    "scope": "양액기",
+                    "meaning": "관수 마무리 중",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
                 }
             ]
         },
@@ -173,73 +356,256 @@
                     "code": 2,
                     "name": "CONTROL",
                     "scope": "노드",
-                    "meaning": "제어권 설정(로컬, 원격, 수동). B.4 참고"
+                    "meaning": "제어권 설정(로컬, 원격, 수동). B.4 참고",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 0,
                     "name": "OFF",
                     "scope": "스위치형 구동기",
-                    "meaning": "작동 멈춤 (STOP)"
+                    "meaning": "작동 멈춤 (STOP)",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 201,
                     "name": "ON",
                     "scope": "스위치형 구동기",
-                    "meaning": "작동 시작"
+                    "meaning": "작동 시작",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 202,
                     "name": "TIMED_ON",
                     "scope": "스위치형 구동기",
-                    "meaning": "정해진 특정시간(초) 동안 작동"
+                    "meaning": "정해진 특정시간(초) 동안 작동",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 203,
                     "name": "DIRECTIONAL_ON",
                     "scope": "스위치형 구동기",
-                    "meaning": "정해진 비율(방향/강도)로 정해진 시간동안 작동"
+                    "meaning": "정해진 비율(방향/강도)로 정해진 시간동안 작동",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 0,
                     "name": "STOP",
                     "scope": "개폐형 구동기",
-                    "meaning": "동작 멈춤 명령"
+                    "meaning": "동작 멈춤 명령",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 301,
                     "name": "OPEN",
                     "scope": "개폐형 구동기",
-                    "meaning": "열림 명령"
+                    "meaning": "열림 명령",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 302,
                     "name": "CLOSE",
                     "scope": "개폐형 구동기",
-                    "meaning": "닫힘 명령"
+                    "meaning": "닫힘 명령",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 303,
                     "name": "TIMED_OPEN",
                     "scope": "개폐형 구동기",
-                    "meaning": "구동기가 열림방향으로 일정 시간만큼 작동하도록 하는 명령"
+                    "meaning": "구동기가 열림방향으로 일정 시간만큼 작동하도록 하는 명령",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 304,
                     "name": "TIMED_CLOSE",
                     "scope": "개폐형 구동기",
-                    "meaning": "구동기가 닫힘방향으로 일정 시간만큼 작동하도록 하는 명령"
+                    "meaning": "구동기가 닫힘방향으로 일정 시간만큼 작동하도록 하는 명령",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 305,
                     "name": "SET_POSITION",
                     "scope": "개폐형 구동기",
-                    "meaning": "개방도(0 %~100 %)를 지정하는 명령"
+                    "meaning": "개방도(0 %~100 %)를 지정하는 명령",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 306,
                     "name": "SET_CONFIG",
                     "scope": "개폐형 구동기",
-                    "meaning": "제어기가 구동기노드의 열림/닫힘에 걸리는 초기 설정값을 지정하는 명령"
+                    "meaning": "제어기가 구동기노드의 열림/닫힘에 걸리는 초기 설정값을 지정하는 명령",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
+                },
+                {
+                    "code": 1,
+                    "name": "RESET",
+                    "scope": "노드",
+                    "meaning": "노드 리셋/재시작",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 3,
+                    "name": "SET_TIME",
+                    "scope": "노드",
+                    "meaning": "시간 설정 (UNIX epoch)",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 401,
+                    "name": "ONCE_SUPPLY",
+                    "scope": "양액기",
+                    "meaning": "1회 관수",
+                    "alias": "ONCE_WATER",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 402,
+                    "name": "WATER_SUPPLY",
+                    "scope": "양액기",
+                    "meaning": "원수 관수 (구역/시간 지정)",
+                    "alias": "JUST_WATER",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 403,
+                    "name": "NUT_SUPPLY",
+                    "scope": "양액기",
+                    "meaning": "양액 관수 (구역/시간/EC/pH 지정)",
+                    "alias": "NUT_WATER",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 404,
+                    "name": "AREA_WATER_SUPPLY",
+                    "scope": "양액기",
+                    "meaning": "비트맵 기반 원수 관수",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 405,
+                    "name": "AREA_NUT_SUPPLY",
+                    "scope": "양액기",
+                    "meaning": "비트맵 기반 양액 관수",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 501,
+                    "name": "DISPLAY_VALUE",
+                    "scope": "표시기(FND)",
+                    "meaning": "실수 값 + 소수점 자리수 표시 [value, sig-digit]",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 502,
+                    "name": "DISPLAY_TIME",
+                    "scope": "표시기(FND)",
+                    "meaning": "UNIX epoch 시간 표시 [epoch]",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 503,
+                    "name": "DISPLAY_ERROR",
+                    "scope": "표시기(FND)",
+                    "meaning": "에러 코드 표시 [short]",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
                 }
             ]
         },
@@ -247,39 +613,232 @@
             "source": "KS X 3267:2022 부속서 B.4",
             "standard": "KS X 3267",
             "applies-to": "read/write 영역 `control` 아이템 (SPEC.md §5.2 · §5.3 · §6.1)",
-            "note": "`control` 아이템이 없는 규격은 그 노드에 제어권 개념이 없다는 뜻이다 (SPEC.md §5.2).",
-            "conflicts-with-spec-md": {
-                "section": "SPEC.md §5.2 (211행)",
-                "detail": "SPEC.md 는 코드 3 을 `IMMUTABLE_LOCAL_MANUAL`(변경 불가 로컬·수동)으로 적고 있으나, KS X 3267:2022 부속서 B.4 는 `MANUAL`(수동 제어)이다. 이름과 서술이 일치하지 않는다.",
-                "resolution": "미해결. 이 파일은 표준 원문 이름을 싣는다."
-            },
+            "note": "`control` 아이템이 없는 규격은 그 노드에 제어권 개념이 없다는 뜻이다 (SPEC.md §5.2). 코드 3 의 정식 이름은 `MANUAL` 이다 — KS X 3267:2022 부속서 B.4 · KS B 7958-5 부속서 B.2 · 참조 구현이 모두 일치한다. `IMMUTABLE_LOCAL_MANUAL` 은 '레지스터로 변경 불가'를 풀어 쓴 설명이지 코드명이 아니다.",
             "values": [
                 {
                     "code": 1,
                     "name": "LOCAL",
                     "scope": "노드",
-                    "meaning": "로컬 제어 (제어권이 노드에 있는 경우)"
+                    "meaning": "로컬 제어 (제어권이 노드에 있는 경우)",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 2,
                     "name": "REMOTE",
                     "scope": "노드",
-                    "meaning": "원격 제어 (제어권이 노드에 있지 않는 경우)"
+                    "meaning": "원격 제어 (제어권이 노드에 있지 않는 경우)",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 },
                 {
                     "code": 3,
                     "name": "MANUAL",
                     "scope": "노드",
-                    "meaning": "수동 제어"
+                    "meaning": "수동 제어",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10"
+                    ]
                 }
             ]
         },
         "nutrient-alert": {
-            "source": null,
+            "source": "KS B 7958-5 부속서 (양액기 경보)",
             "standard": "KS B 7958",
             "applies-to": "read 영역 `alert` 아이템 (SPEC.md §6.1)",
-            "values": [],
-            "missing-reason": "KS B 7958 계열(protocol 30/31)의 코드 일람표가 아카이브에 없다. 현재 확보된 KS B 7958-5 문서는 초안(2026-draft)뿐이며, 초안을 정본 데이터로 싣지 않는다. 소비처는 `alert` 값의 의미를 단정하지 말고 값과 자리(주소·크기)만 인용해야 한다."
+            "note": "**초안 근거(tier=draft).** 발행 시 바뀔 수 있다.",
+            "values": [
+                {
+                    "code": 0,
+                    "name": "NORMAL",
+                    "scope": "양액기",
+                    "meaning": "정상",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 1,
+                    "name": "HIGH_CONCENTRATION_EC",
+                    "scope": "양액기",
+                    "meaning": "EC 농도 높음",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 2,
+                    "name": "LOW_CONCENTRATION_EC",
+                    "scope": "양액기",
+                    "meaning": "EC 농도 낮음",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 3,
+                    "name": "HIGH_CONCENTRATION_PH",
+                    "scope": "양액기",
+                    "meaning": "pH 높음",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 4,
+                    "name": "LOW_CONCENTRATION_PH",
+                    "scope": "양액기",
+                    "meaning": "pH 낮음",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 5,
+                    "name": "LOW_FLOW_ALARM",
+                    "scope": "양액기",
+                    "meaning": "유량 부족 경보",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 6,
+                    "name": "HIGH_TEMPERATURE_ALARM",
+                    "scope": "양액기",
+                    "meaning": "고온 경보",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 7,
+                    "name": "LOW_TEMPERATURE_ALARM",
+                    "scope": "양액기",
+                    "meaning": "저온 경보",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 8,
+                    "name": "ABNORMAL",
+                    "scope": "양액기",
+                    "meaning": "이상",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 9,
+                    "name": "LOW_LEVEL",
+                    "scope": "양액기",
+                    "meaning": "수위 낮음",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 10,
+                    "name": "OVERLOAD",
+                    "scope": "양액기",
+                    "meaning": "과부하",
+                    "std": "KS B 7958-5",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                }
+            ]
         }
+    },
+    "interop-notes": {
+        "description": "표준 코드가 현장 구현에서 어떻게 갈리는지에 대한 관찰. **코드 정의가 아니다.** 값을 여기서 읽지 말 것 — 이 파일의 codes 블록이 정본이다. 오진을 막기 위한 주의 사항이다.",
+        "observed-2026-08-17": [
+            "KS X 3267:2022 부속서 B",
+            "KS B 7958-5 초안(ksdevice 참조 구현)",
+            "FarmOS v5 message-codes 스냅샷(구현)"
+        ],
+        "notes": [
+            {
+                "topic": "수동 상태의 표현이 protocol 마다 다르다",
+                "severity": "high",
+                "detail": "같은 '사람이 손으로 조작 중'을 KS X 3267 은 스위치 299(USER_CONTROL)·개폐 399(MANUAL_CONTROL) 로, KS B 7958-5 초안은 스위치 202·개폐 303/304 로 표현한다. FarmOS 구현은 921/931/932 를 쓴다. **status 값만 보고 표준을 단정할 수 없다 — protocol 을 먼저 확인해야 한다.**"
+            },
+            {
+                "topic": "status 와 operation 은 다른 네임스페이스다",
+                "severity": "high",
+                "detail": "KS B 7958-5 초안에서 status 303/304 는 MANUAL_OPENING/MANUAL_CLOSING 인데, operation 303/304 는 TIMED_OPEN/TIMED_CLOSE 다. 같은 숫자가 읽기 영역과 쓰기 영역에서 전혀 다른 뜻이다. 프레임 해석 시 어느 영역인지 먼저 확정할 것."
+            },
+            {
+                "topic": "operation 306 의 의미가 구현마다 갈린다",
+                "severity": "high",
+                "detail": "KS X 3267 `SET_CONFIG`(개폐 초기 설정값)와 KS B 7958-5 `SET_OC_TIME`(개폐 시간 설정)은 같은 것이다. 그러나 FarmOS 구현은 306 을 `SET_TIME`(시간 설정)으로 쓴다 — **다른 기능이다.** FarmOS 는 SET_CONFIG 를 1201 로 따로 둔다."
+            },
+            {
+                "topic": "operation 3 이 구현마다 다르다",
+                "severity": "medium",
+                "detail": "KS B 7958-5 초안은 3=SET_TIME, FarmOS 구현은 3=SET_CURRENT. 표준 미확정 구간이다."
+            },
+            {
+                "topic": "FarmOS 가 KS X 3267 예약 구간을 쓴다",
+                "severity": "medium",
+                "detail": "status 91(DISCONNECTED)은 KS X 3267 부속서 B.2 의 공통 예약(RESERVED 7~99) 안에 있다. 표준 준수 장비에서 91 을 만나면 예약값이지 연결 끊김이 아니다."
+            },
+            {
+                "topic": "FarmOS 9xx 는 제조사 정의 구간이다",
+                "severity": "low",
+                "detail": "921·931·932·9xx overload 계열은 KS X 3267 이 VENDOR_SPECIFIC_ERROR 로 열어 둔 900~999 안에 있다. 규격 위반은 아니나 **이식성이 없다** — 다른 벤더 장비에서 같은 뜻이 아니다."
+            },
+            {
+                "topic": "값은 같고 이름 표기만 다른 경우가 많다",
+                "severity": "low",
+                "detail": "VOLTAGE_ERROR↔ERROR_VOLTAGE, NEED_REPLACE↔NEEDTOCHANGE, ON↔WORKING(status 201), SET_POSITION↔POSITION, CONTROL↔CHANGE_CONTROL. **값이 같으면 같은 것이다** — 이름 차이를 불일치로 보고하지 말 것."
+            },
+            {
+                "topic": "양액기 4xx 의 이름 체계가 갈린다",
+                "severity": "medium",
+                "detail": "KS B 7958-5 초안은 401 ONCE_SUPPLY · 402 WATER_SUPPLY(원수) · 403 NUT_SUPPLY(양액) 이지만, FarmOS 구현은 402 AREA_WATERING · 403 PARAMED_WATERING 으로 축이 다르다. FarmOS 는 47x·48x·49x 에 대량의 자체 관수 명령을 둔다 — 전부 표준 밖이다."
+            }
+        ]
     }
 }
