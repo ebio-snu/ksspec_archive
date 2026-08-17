@@ -319,10 +319,19 @@ registers[addr+1] = hi
 
 ## 7. Command code vs register opcode
 
-KS 표준의 외부 노출 **command code** (예: `ON=201`, `OFF=0`, `OPEN=301`,
-`CLOSE=302`, `STOP=303`, `ONCE_SUPPLY=401`, `WATER_SUPPLY=402`,
-`NUT_SUPPLY=403`, `DISPLAY_VALUE=501`) 와 일부 구현체가 레지스터에 실제
-기록하는 **register opcode** 가 다를 수 있다.
+KS 표준의 외부 노출 **command code** 와 일부 구현체가 레지스터에 실제 기록하는
+**register opcode** 가 다를 수 있다.
+
+command code 의 정본은 [`../specs/codes.json`](../specs/codes.json) 이다 (§7.1).
+예: 스위치형 `OFF=0` · `ON=201` · `TIMED_ON=202`, 개폐형 **`STOP=0`** · `OPEN=301` ·
+`CLOSE=302` · `TIMED_OPEN=303` · `TIMED_CLOSE=304`.
+
+**정지 명령은 `0` 이다.** `303` 은 `TIMED_OPEN`(열림방향 일정 시간 작동)이다 —
+KS X 3267:2022 부속서 B.3. 이전 판본의 이 절은 `STOP=303` 이라 적고 있었다.
+
+양액기(`ONCE_SUPPLY=401` · `WATER_SUPPLY=402` · `NUT_SUPPLY=403`)와 표시기
+(`DISPLAY_VALUE=501`)는 KS X 3267 범위 밖이며 KS B 7958 계열에서 정의된다 —
+아직 `codes.json` 에 수록되지 않았다(§7.1).
 
 `write.operations[]` (§8) 가 정의된 경우 `opcode` 필드는 command code 와 일치
 한다 — 파서가 수신한 operation 값으로 opcode 별 layout 을 선택하는 것이 §8 의
@@ -340,13 +349,14 @@ KS 표준의 외부 노출 **command code** (예: `ON=201`, `OFF=0`, `OPEN=301`,
 데이터로 싣지 않기 때문이다. `codes.json` 의 `coverage.missing` 이 이를 명시한다 —
 소비처는 미수록 항목의 값을 **추측하거나 구현체에서 옮겨 오면 안 된다.**
 
-> **위 예시 목록과 `codes.json` 이 일치하지 않는다 — 미해결.**
-> 본 절의 예시는 `STOP=303` 이라 적고 있으나 KS X 3267:2022 부속서 B.3 에서
-> 개폐형 구동기의 `STOP` 은 `0` 이고 `303` 은 `TIMED_OPEN` 이다. 또 §5.2 는 `control`
-> 코드 `3` 을 `IMMUTABLE_LOCAL_MANUAL` 로 적으나 부속서 B.4 는 `MANUAL` 이다.
-> `codes.json` 은 표준 원문만 싣고 값을 맞추지 않았다.
-> **정정 방향은 별도 검토 사항이다**(`SPEC_MANAGEMENT.md` §4·§6). 그때까지 두 표기가
-> 갈리는 지점은 위 `conflicts-with-spec-md` 항목으로 추적한다.
+> **남은 불일치 1건 — `control` 코드 3.**
+> §5.2 는 `IMMUTABLE_LOCAL_MANUAL`(변경 불가 로컬·수동)로 적으나 부속서 B.4 는
+> `MANUAL`(수동 제어)이다. `codes.json` 은 표준 원문을 싣고 값을 맞추지 않았으며,
+> 이름·서술의 정정 방향은 별도 검토 사항이다(`SPEC_MANAGEMENT.md` §4).
+> 갈리는 지점은 `codes.json` 의 `conflicts-with-spec-md` 로 추적한다.
+>
+> `operation` 의 `STOP` 불일치는 **해소됐다** — 정지 명령은 `0`, `303` 은 `TIMED_OPEN`
+> 이며 §7 을 그에 맞게 정정했다.
 
 ---
 

@@ -1,22 +1,28 @@
 {
     "version": 1,
     "description": "KS 표준 부속서의 코드 일람표. 코드값을 도구·프롬프트에 손으로 옮겨 적지 않기 위한 정본 데이터. 규범 정의는 각 항목의 source 가 가리키는 표준 조항이다.",
-
     "sources": {
         "KS X 3267:2022": {
             "annex": "부속서 B (규격) 코드 일람표",
             "status": "발행본",
-            "protocols": ["10"],
+            "protocols": [
+                "10"
+            ],
             "note": "protocol 10 에 적용된다. 부속서 B 는 규격(normative) 부속서다."
         }
     },
-
     "coverage": {
-        "complete": ["product-type", "status", "operation", "control"],
-        "missing": ["nutrient-alert"],
+        "complete": [
+            "product-type",
+            "status",
+            "operation",
+            "control"
+        ],
+        "missing": [
+            "nutrient-alert"
+        ],
         "note": "missing 항목은 아카이브에 아직 데이터가 없다는 뜻이다. 소비처는 이 목록을 보고 '아카이브에 근거가 없음'을 구분해야 하며, 값을 추측하거나 구현체에서 옮겨 오면 안 된다."
     },
-
     "codes": {
         "product-type": {
             "source": "KS X 3267:2022 부속서 B.1",
@@ -24,64 +30,219 @@
             "applies-to": "노드",
             "note": "KS X 3267 은 1~3 만 정의한다. 파일명 규칙(SPEC.md §2.1)의 type 4 는 이 표준의 범위 밖이며 KS B 7958 계열에서 정의된다 — 아카이브 미수록.",
             "values": [
-                { "code": 1, "name": "SENSOR_NODE", "meaning": "센서 노드" },
-                { "code": 2, "name": "ACTUATOR_NODE", "meaning": "구동기 노드" },
-                { "code": 3, "name": "COMPOSITE_NODE", "meaning": "복합 노드" }
+                {
+                    "code": 1,
+                    "name": "SENSOR_NODE",
+                    "meaning": "센서 노드"
+                },
+                {
+                    "code": 2,
+                    "name": "ACTUATOR_NODE",
+                    "meaning": "구동기 노드"
+                },
+                {
+                    "code": 3,
+                    "name": "COMPOSITE_NODE",
+                    "meaning": "복합 노드"
+                }
             ]
         },
-
         "status": {
             "source": "KS X 3267:2022 부속서 B.2",
             "standard": "KS X 3267",
             "applies-to": "read 영역 `status` 아이템 (SPEC.md §5.2 · §6.1)",
             "note": "대상(scope)이 다르면 같은 숫자가 다른 의미를 가질 수 있다. 반드시 scope 와 함께 해석한다.",
             "values": [
-                { "code": 0, "name": "READY", "scope": "공통", "meaning": "정상, 준비중, 정지" },
-                { "code": 1, "name": "ERROR", "scope": "공통", "meaning": "오류" },
-                { "code": 2, "name": "BUSY", "scope": "공통", "meaning": "처리 불능" },
-                { "code": 3, "name": "VOLTAGE_ERROR", "scope": "공통", "meaning": "동작 전압 이상" },
-                { "code": 4, "name": "CURRENT_ERROR", "scope": "공통", "meaning": "동작 전류 이상" },
-                { "code": 5, "name": "TEMPERATURE_ERROR", "scope": "공통", "meaning": "동작 온도 이상" },
-                { "code": 6, "name": "FUSE_ERROR", "scope": "공통", "meaning": "휴즈 이상" },
-                { "range": [7, 99], "name": "RESERVED", "scope": "공통", "meaning": "공통 예약(reserved)" },
-                { "code": 101, "name": "NEED_REPLACE", "scope": "센서", "meaning": "센서 및 소모품 교체 요망" },
-                { "code": 102, "name": "NEED_CALIBRATION", "scope": "센서", "meaning": "센서 교정 요망" },
-                { "code": 103, "name": "NEED_CHECK", "scope": "센서", "meaning": "센서 점검 필요" },
-                { "code": 201, "name": "ON", "scope": "스위치형 구동기", "meaning": "작동 중(WORKING)" },
-                { "code": 299, "name": "USER_CONTROL", "scope": "스위치형 구동기", "meaning": "사용자 제어 중" },
-                { "code": 301, "name": "OPENING", "scope": "개폐형 구동기", "meaning": "여는 중" },
-                { "code": 302, "name": "CLOSING", "scope": "개폐형 구동기", "meaning": "닫는 중(CLOSING)" },
-                { "code": 399, "name": "MANUAL_CONTROL", "scope": "개폐형 구동기", "meaning": "사용자 제어 중" },
-                { "range": [900, 999], "name": "VENDOR_SPECIFIC_ERROR", "scope": "기타", "meaning": "제조사 정의 에러 코드" }
+                {
+                    "code": 0,
+                    "name": "READY",
+                    "scope": "공통",
+                    "meaning": "정상, 준비중, 정지"
+                },
+                {
+                    "code": 1,
+                    "name": "ERROR",
+                    "scope": "공통",
+                    "meaning": "오류"
+                },
+                {
+                    "code": 2,
+                    "name": "BUSY",
+                    "scope": "공통",
+                    "meaning": "처리 불능"
+                },
+                {
+                    "code": 3,
+                    "name": "VOLTAGE_ERROR",
+                    "scope": "공통",
+                    "meaning": "동작 전압 이상"
+                },
+                {
+                    "code": 4,
+                    "name": "CURRENT_ERROR",
+                    "scope": "공통",
+                    "meaning": "동작 전류 이상"
+                },
+                {
+                    "code": 5,
+                    "name": "TEMPERATURE_ERROR",
+                    "scope": "공통",
+                    "meaning": "동작 온도 이상"
+                },
+                {
+                    "code": 6,
+                    "name": "FUSE_ERROR",
+                    "scope": "공통",
+                    "meaning": "휴즈 이상"
+                },
+                {
+                    "range": [
+                        7,
+                        99
+                    ],
+                    "name": "RESERVED",
+                    "scope": "공통",
+                    "meaning": "공통 예약(reserved)"
+                },
+                {
+                    "code": 101,
+                    "name": "NEED_REPLACE",
+                    "scope": "센서",
+                    "meaning": "센서 및 소모품 교체 요망"
+                },
+                {
+                    "code": 102,
+                    "name": "NEED_CALIBRATION",
+                    "scope": "센서",
+                    "meaning": "센서 교정 요망"
+                },
+                {
+                    "code": 103,
+                    "name": "NEED_CHECK",
+                    "scope": "센서",
+                    "meaning": "센서 점검 필요"
+                },
+                {
+                    "code": 201,
+                    "name": "ON",
+                    "scope": "스위치형 구동기",
+                    "meaning": "작동 중(WORKING)"
+                },
+                {
+                    "code": 299,
+                    "name": "USER_CONTROL",
+                    "scope": "스위치형 구동기",
+                    "meaning": "사용자 제어 중"
+                },
+                {
+                    "code": 301,
+                    "name": "OPENING",
+                    "scope": "개폐형 구동기",
+                    "meaning": "여는 중"
+                },
+                {
+                    "code": 302,
+                    "name": "CLOSING",
+                    "scope": "개폐형 구동기",
+                    "meaning": "닫는 중(CLOSING)"
+                },
+                {
+                    "code": 399,
+                    "name": "MANUAL_CONTROL",
+                    "scope": "개폐형 구동기",
+                    "meaning": "사용자 제어 중"
+                },
+                {
+                    "range": [
+                        900,
+                        999
+                    ],
+                    "name": "VENDOR_SPECIFIC_ERROR",
+                    "scope": "기타",
+                    "meaning": "제조사 정의 에러 코드"
+                }
             ]
         },
-
         "operation": {
             "source": "KS X 3267:2022 부속서 B.3",
             "standard": "KS X 3267",
             "applies-to": "write 영역 `operation` 아이템 (SPEC.md §5.3 · §6.1). `write.operations[]` 의 opcode 와 대응 (SPEC.md §8)",
-            "note": "대상(scope)마다 코드 공간이 분리된다. 특히 0 은 스위치형에서 OFF, 개폐형에서 STOP 이다.",
-            "conflicts-with-spec-md": {
-                "section": "SPEC.md §7",
-                "detail": "SPEC.md §7 의 예시 목록은 `STOP=303` 이라 적고 있으나, KS X 3267:2022 부속서 B.3 에서 개폐형 구동기의 STOP 은 0 이고 303 은 TIMED_OPEN 이다. 또한 §7 이 든 401/402/403(양액기)·501(표시기)은 KS X 3267 범위 밖이다.",
-                "resolution": "미해결. 이 파일은 KS X 3267:2022 원문만 싣는다. SPEC.md §7 의 정정 여부는 별도 검토 사항이다 — 값을 임의로 맞추지 않았다."
-            },
+            "note": "대상(scope)마다 코드 공간이 분리된다. 특히 0 은 스위치형에서 OFF, 개폐형에서 STOP 이다. 정지 명령은 0 이며 303 은 TIMED_OPEN 이다 — SPEC.md §7 의 이전 표기(STOP=303)는 정정됐다.",
             "values": [
-                { "code": 2, "name": "CONTROL", "scope": "노드", "meaning": "제어권 설정(로컬, 원격, 수동). B.4 참고" },
-                { "code": 0, "name": "OFF", "scope": "스위치형 구동기", "meaning": "작동 멈춤 (STOP)" },
-                { "code": 201, "name": "ON", "scope": "스위치형 구동기", "meaning": "작동 시작" },
-                { "code": 202, "name": "TIMED_ON", "scope": "스위치형 구동기", "meaning": "정해진 특정시간(초) 동안 작동" },
-                { "code": 203, "name": "DIRECTIONAL_ON", "scope": "스위치형 구동기", "meaning": "정해진 비율(방향/강도)로 정해진 시간동안 작동" },
-                { "code": 0, "name": "STOP", "scope": "개폐형 구동기", "meaning": "동작 멈춤 명령" },
-                { "code": 301, "name": "OPEN", "scope": "개폐형 구동기", "meaning": "열림 명령" },
-                { "code": 302, "name": "CLOSE", "scope": "개폐형 구동기", "meaning": "닫힘 명령" },
-                { "code": 303, "name": "TIMED_OPEN", "scope": "개폐형 구동기", "meaning": "구동기가 열림방향으로 일정 시간만큼 작동하도록 하는 명령" },
-                { "code": 304, "name": "TIMED_CLOSE", "scope": "개폐형 구동기", "meaning": "구동기가 닫힘방향으로 일정 시간만큼 작동하도록 하는 명령" },
-                { "code": 305, "name": "SET_POSITION", "scope": "개폐형 구동기", "meaning": "개방도(0 %~100 %)를 지정하는 명령" },
-                { "code": 306, "name": "SET_CONFIG", "scope": "개폐형 구동기", "meaning": "제어기가 구동기노드의 열림/닫힘에 걸리는 초기 설정값을 지정하는 명령" }
+                {
+                    "code": 2,
+                    "name": "CONTROL",
+                    "scope": "노드",
+                    "meaning": "제어권 설정(로컬, 원격, 수동). B.4 참고"
+                },
+                {
+                    "code": 0,
+                    "name": "OFF",
+                    "scope": "스위치형 구동기",
+                    "meaning": "작동 멈춤 (STOP)"
+                },
+                {
+                    "code": 201,
+                    "name": "ON",
+                    "scope": "스위치형 구동기",
+                    "meaning": "작동 시작"
+                },
+                {
+                    "code": 202,
+                    "name": "TIMED_ON",
+                    "scope": "스위치형 구동기",
+                    "meaning": "정해진 특정시간(초) 동안 작동"
+                },
+                {
+                    "code": 203,
+                    "name": "DIRECTIONAL_ON",
+                    "scope": "스위치형 구동기",
+                    "meaning": "정해진 비율(방향/강도)로 정해진 시간동안 작동"
+                },
+                {
+                    "code": 0,
+                    "name": "STOP",
+                    "scope": "개폐형 구동기",
+                    "meaning": "동작 멈춤 명령"
+                },
+                {
+                    "code": 301,
+                    "name": "OPEN",
+                    "scope": "개폐형 구동기",
+                    "meaning": "열림 명령"
+                },
+                {
+                    "code": 302,
+                    "name": "CLOSE",
+                    "scope": "개폐형 구동기",
+                    "meaning": "닫힘 명령"
+                },
+                {
+                    "code": 303,
+                    "name": "TIMED_OPEN",
+                    "scope": "개폐형 구동기",
+                    "meaning": "구동기가 열림방향으로 일정 시간만큼 작동하도록 하는 명령"
+                },
+                {
+                    "code": 304,
+                    "name": "TIMED_CLOSE",
+                    "scope": "개폐형 구동기",
+                    "meaning": "구동기가 닫힘방향으로 일정 시간만큼 작동하도록 하는 명령"
+                },
+                {
+                    "code": 305,
+                    "name": "SET_POSITION",
+                    "scope": "개폐형 구동기",
+                    "meaning": "개방도(0 %~100 %)를 지정하는 명령"
+                },
+                {
+                    "code": 306,
+                    "name": "SET_CONFIG",
+                    "scope": "개폐형 구동기",
+                    "meaning": "제어기가 구동기노드의 열림/닫힘에 걸리는 초기 설정값을 지정하는 명령"
+                }
             ]
         },
-
         "control": {
             "source": "KS X 3267:2022 부속서 B.4",
             "standard": "KS X 3267",
@@ -93,12 +254,26 @@
                 "resolution": "미해결. 이 파일은 표준 원문 이름을 싣는다."
             },
             "values": [
-                { "code": 1, "name": "LOCAL", "scope": "노드", "meaning": "로컬 제어 (제어권이 노드에 있는 경우)" },
-                { "code": 2, "name": "REMOTE", "scope": "노드", "meaning": "원격 제어 (제어권이 노드에 있지 않는 경우)" },
-                { "code": 3, "name": "MANUAL", "scope": "노드", "meaning": "수동 제어" }
+                {
+                    "code": 1,
+                    "name": "LOCAL",
+                    "scope": "노드",
+                    "meaning": "로컬 제어 (제어권이 노드에 있는 경우)"
+                },
+                {
+                    "code": 2,
+                    "name": "REMOTE",
+                    "scope": "노드",
+                    "meaning": "원격 제어 (제어권이 노드에 있지 않는 경우)"
+                },
+                {
+                    "code": 3,
+                    "name": "MANUAL",
+                    "scope": "노드",
+                    "meaning": "수동 제어"
+                }
             ]
         },
-
         "nutrient-alert": {
             "source": null,
             "standard": "KS B 7958",
