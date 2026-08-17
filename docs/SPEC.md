@@ -328,6 +328,26 @@ KS 표준의 외부 노출 **command code** (예: `ON=201`, `OFF=0`, `OPEN=301`,
 한다 — 파서가 수신한 operation 값으로 opcode 별 layout 을 선택하는 것이 §8 의
 메커니즘.
 
+### 7.1 코드 일람표 — `specs/codes.json`
+
+`status`·`operation`·`control`·제품 타입의 **코드 값 ↔ 의미** 대응은
+[`../specs/codes.json`](../specs/codes.json) 이 정하며, 그 파일이 **유일한 원천**이다.
+§5.5 가 라벨에 대해 그렇듯, 도구·프롬프트가 코드값을 상수로 들고 있으면 안 된다.
+
+현재 수록 범위는 **KS X 3267:2022 부속서 B (규격) 코드 일람표** — protocol `10` 에
+적용된다. KS B 7958 계열(protocol `30`/`31`)의 코드 일람표, 특히 `alert`(양액기 경보)의
+값 대응은 **아직 수록하지 않았다.** 확보된 KS B 7958-5 문서가 초안뿐이며 초안을 정본
+데이터로 싣지 않기 때문이다. `codes.json` 의 `coverage.missing` 이 이를 명시한다 —
+소비처는 미수록 항목의 값을 **추측하거나 구현체에서 옮겨 오면 안 된다.**
+
+> **위 예시 목록과 `codes.json` 이 일치하지 않는다 — 미해결.**
+> 본 절의 예시는 `STOP=303` 이라 적고 있으나 KS X 3267:2022 부속서 B.3 에서
+> 개폐형 구동기의 `STOP` 은 `0` 이고 `303` 은 `TIMED_OPEN` 이다. 또 §5.2 는 `control`
+> 코드 `3` 을 `IMMUTABLE_LOCAL_MANUAL` 로 적으나 부속서 B.4 는 `MANUAL` 이다.
+> `codes.json` 은 표준 원문만 싣고 값을 맞추지 않았다.
+> **정정 방향은 별도 검토 사항이다**(`SPEC_MANAGEMENT.md` §4·§6). 그때까지 두 표기가
+> 갈리는 지점은 위 `conflicts-with-spec-md` 항목으로 추적한다.
+
 ---
 
 ## 8. `write.operations[]` — opcode 가변 레이아웃
