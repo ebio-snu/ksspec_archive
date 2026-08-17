@@ -12,83 +12,112 @@
             "note": "부속서 B 는 규격(normative) 부속서다."
         },
         "KS B 7958-5": {
-            "annex": "부속서 A.2(장치의 종류) · B.1(상태) · B.2(제어권) · B.3(명령)",
+            "designation": "KS B 7958-5:2027 (제5부: 코드일람표)",
+            "annex": "부속서 A (규정) 장비 코드 일람표 — A.1 노드의 종류 · A.2 센서 정보 · A.3 구동기 정보 / 부속서 B (규정) 일반 코드 일람표 — B.1 상태 · B.2 제어권 · B.3 명령 · B.4 양액공급기 경보",
             "tier": "draft",
-            "status": "제정 협의 중 — 발행 전",
+            "status": "제정 협의 중 — 2026-draft-rev6 기준",
             "protocols": [
                 "30",
                 "31"
             ],
-            "via": "ksdevice `src/ksdevice/common/constants.py` (참조 구현). 원문 docx 초안은 아카이브에 두지 않는다.",
-            "note": "**초안이다.** 발행 시 값이 바뀔 수 있다. 소비처는 tier 를 확인하고 draft 값에 근거한 판정을 단정하지 말 것. protocols.json 의 protocol 31 이 '다음 개정판'을 가리키는 것과 같은 트랙이다."
+            "source-document": "standards/standard_archive/greenhouse/KS-B-7958-5/2026-draft-rev6/",
+            "note": "**부속서 A·B 는 규정(normative) 부속서이나 표준 자체가 발행 전이다.** rev6 기준이며 발행 시 값·이름이 바뀔 수 있다. 소비처는 tier 를 확인하고 draft 값에 근거한 판정을 단정하지 말 것."
         }
     },
     "coverage": {
         "complete": [
-            "product-type",
             "status",
-            "operation",
             "control",
-            "nutrient-alert"
+            "operation",
+            "nutrient-alert",
+            "product-type",
+            "device-type"
         ],
         "missing": [],
-        "note": "tier=draft 항목은 KS B 7958-5 제정 전 값이다. 발행 시 재확인이 필요하며, 소비처는 draft 값에 근거한 판정을 단정하지 말 것."
+        "note": "tier=draft 항목은 KS B 7958-5:2027 제정 전(rev6) 값이다. 발행 시 재확인이 필요하며, 소비처는 draft 값에 근거한 판정을 단정하지 말 것."
     },
     "codes": {
         "product-type": {
-            "source": "KS X 3267:2022 부속서 B.1",
-            "standard": "KS X 3267",
-            "applies-to": "노드",
-            "note": "KS X 3267 은 1~3 만 정의한다. 파일명 규칙(SPEC.md §2.1)의 type 4 는 이 표준의 범위 밖이며 KS B 7958 계열에서 정의된다 — 아카이브 미수록.",
+            "source": "KS B 7958-5:2027 부속서",
+            "standard": "KS X 3267 / KS B 7958",
+            "applies-to": "노드 정보 영역의 제품 타입 (SPEC.md §2.1 `type` · §3.1)",
+            "note": "코드 4(게이트웨이 노드)는 KS B 7958-5 만 정의한다 — KS X 3267 부속서 B.1 은 1~3 뿐이다.",
             "values": [
                 {
                     "code": 1,
-                    "name": "SENSOR_NODE",
+                    "name": "sensor-node",
+                    "scope": "노드",
                     "meaning": "센서 노드",
-                    "std": "KS X 3267:2022",
-                    "tier": "normative",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS X 3267:2022 부속서 B.1 이 코드 값 1~3 을 정의한다(영문명 없음)"
                 },
                 {
                     "code": 2,
-                    "name": "ACTUATOR_NODE",
+                    "name": "actuator-node",
+                    "scope": "노드",
                     "meaning": "구동기 노드",
-                    "std": "KS X 3267:2022",
-                    "tier": "normative",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS X 3267:2022 부속서 B.1 이 코드 값 1~3 을 정의한다(영문명 없음)"
                 },
                 {
                     "code": 3,
-                    "name": "COMPOSITE_NODE",
+                    "name": "integrated-node",
+                    "scope": "노드",
                     "meaning": "복합 노드",
-                    "std": "KS X 3267:2022",
-                    "tier": "normative",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
                     "protocols": [
-                        "10"
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS X 3267:2022 부속서 B.1 이 코드 값 1~3 을 정의한다(영문명 없음)"
+                },
+                {
+                    "code": 4,
+                    "name": "gateway-node",
+                    "scope": "노드",
+                    "meaning": "게이트웨이 노드",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
                     ]
                 }
             ]
         },
         "status": {
-            "source": "KS X 3267:2022 부속서 B.2",
-            "standard": "KS X 3267",
+            "source": "표준별로 다름 — 각 값의 std 참조",
+            "standard": "KS X 3267 / KS B 7958",
             "applies-to": "read 영역 `status` 아이템 (SPEC.md §5.2 · §6.1)",
-            "note": "대상(scope)이 다르면 같은 숫자가 다른 의미를 가질 수 있다. 반드시 scope 와 함께 해석한다.",
+            "note": "대상(scope)이 다르면 같은 숫자가 다른 의미를 가질 수 있다. 반드시 scope 와 함께 해석한다. **두 표준이 수동 상태를 다르게 표현한다** — KS X 3267 은 299/399, KS B 7958-5 는 202/303/304.",
             "values": [
                 {
                     "code": 0,
                     "name": "READY",
                     "scope": "공통",
-                    "meaning": "정상, 준비중, 정지",
+                    "meaning": "정상",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 부속서 B.1 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 1,
@@ -98,52 +127,67 @@
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 부속서 B.1 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 2,
                     "name": "BUSY",
                     "scope": "공통",
-                    "meaning": "처리 불능",
+                    "meaning": "바쁨",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 부속서 B.1 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 3,
                     "name": "VOLTAGE_ERROR",
                     "scope": "공통",
-                    "meaning": "동작 전압 이상",
+                    "meaning": "전압 이상",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 부속서 B.1 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 4,
                     "name": "CURRENT_ERROR",
                     "scope": "공통",
-                    "meaning": "동작 전류 이상",
+                    "meaning": "전류 이상",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 부속서 B.1 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 5,
                     "name": "TEMPERATURE_ERROR",
                     "scope": "공통",
-                    "meaning": "동작 온도 이상",
+                    "meaning": "온도 이상",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 부속서 B.1 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 6,
@@ -153,14 +197,13 @@
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 부속서 B.1 이 같은 값·이름을 정의한다"
                 },
                 {
-                    "range": [
-                        7,
-                        99
-                    ],
                     "name": "RESERVED",
                     "scope": "공통",
                     "meaning": "공통 예약(reserved)",
@@ -168,39 +211,64 @@
                     "tier": "normative",
                     "protocols": [
                         "10"
+                    ],
+                    "range": [
+                        7,
+                        99
                     ]
                 },
                 {
                     "code": 101,
                     "name": "NEED_REPLACE",
                     "scope": "센서",
-                    "meaning": "센서 및 소모품 교체 요망",
+                    "meaning": "교체 요망",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 부속서 B.1 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 102,
                     "name": "NEED_CALIBRATION",
                     "scope": "센서",
-                    "meaning": "센서 교정 요망",
+                    "meaning": "교정 요망",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 부속서 B.1 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 103,
                     "name": "NEED_CHECK",
                     "scope": "센서",
-                    "meaning": "센서 점검 필요",
+                    "meaning": "점검 요망",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 부속서 B.1 이 같은 값·이름을 정의한다"
+                },
+                {
+                    "code": 201,
+                    "name": "WORKING",
+                    "scope": "스위치형 구동기",
+                    "meaning": "작동중",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
                     ]
                 },
                 {
@@ -212,6 +280,18 @@
                     "tier": "normative",
                     "protocols": [
                         "10"
+                    ]
+                },
+                {
+                    "code": 202,
+                    "name": "MANUAL_WORKING",
+                    "scope": "스위치형 구동기",
+                    "meaning": "수동작동중",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
                     ]
                 },
                 {
@@ -229,22 +309,52 @@
                     "code": 301,
                     "name": "OPENING",
                     "scope": "개폐형 구동기",
-                    "meaning": "여는 중",
+                    "meaning": "여는중",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 부속서 B.1 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 302,
                     "name": "CLOSING",
                     "scope": "개폐형 구동기",
-                    "meaning": "닫는 중(CLOSING)",
+                    "meaning": "닫는중",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 부속서 B.1 이 같은 값·이름을 정의한다"
+                },
+                {
+                    "code": 303,
+                    "name": "MANUAL_OPENING",
+                    "scope": "개폐형 구동기",
+                    "meaning": "수동여는중",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 304,
+                    "name": "MANUAL_CLOSING",
+                    "scope": "개폐형 구동기",
+                    "meaning": "수동닫는중",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
                     ]
                 },
                 {
@@ -259,61 +369,11 @@
                     ]
                 },
                 {
-                    "range": [
-                        900,
-                        999
-                    ],
-                    "name": "VENDOR_SPECIFIC_ERROR",
-                    "scope": "기타",
-                    "meaning": "제조사 정의 에러 코드",
-                    "std": "KS X 3267:2022",
-                    "tier": "normative",
-                    "protocols": [
-                        "10"
-                    ]
-                },
-                {
-                    "code": 202,
-                    "name": "MANUAL_WORKING",
-                    "scope": "스위치형 구동기",
-                    "meaning": "수동 작동 중",
-                    "std": "KS B 7958-5",
-                    "tier": "draft",
-                    "protocols": [
-                        "30",
-                        "31"
-                    ]
-                },
-                {
-                    "code": 303,
-                    "name": "MANUAL_OPENING",
-                    "scope": "개폐형 구동기",
-                    "meaning": "수동 여는 중",
-                    "std": "KS B 7958-5",
-                    "tier": "draft",
-                    "protocols": [
-                        "30",
-                        "31"
-                    ]
-                },
-                {
-                    "code": 304,
-                    "name": "MANUAL_CLOSING",
-                    "scope": "개폐형 구동기",
-                    "meaning": "수동 닫는 중",
-                    "std": "KS B 7958-5",
-                    "tier": "draft",
-                    "protocols": [
-                        "30",
-                        "31"
-                    ]
-                },
-                {
                     "code": 401,
                     "name": "PREPARING",
                     "scope": "양액기",
-                    "meaning": "관수 준비 중",
-                    "std": "KS B 7958-5",
+                    "meaning": "관수준비중",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -324,8 +384,8 @@
                     "code": 402,
                     "name": "SUPPLYING",
                     "scope": "양액기",
-                    "meaning": "관수 중",
-                    "std": "KS B 7958-5",
+                    "meaning": "관수중",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -336,130 +396,199 @@
                     "code": 403,
                     "name": "FINISHING",
                     "scope": "양액기",
-                    "meaning": "관수 마무리 중",
-                    "std": "KS B 7958-5",
+                    "meaning": "관수종료중",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
                         "31"
                     ]
+                },
+                {
+                    "range": [
+                        900,
+                        999
+                    ],
+                    "name": "VENDOR_SPECIFIC_ERROR",
+                    "scope": "기타",
+                    "meaning": "제조사 특정 오류",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS X 3267:2022 부속서 B.2 도 같은 범위를 정의한다"
                 }
             ]
         },
         "operation": {
-            "source": "KS X 3267:2022 부속서 B.3",
-            "standard": "KS X 3267",
+            "source": "표준별로 다름 — 각 값의 std 참조",
+            "standard": "KS X 3267 / KS B 7958",
             "applies-to": "write 영역 `operation` 아이템 (SPEC.md §5.3 · §6.1). `write.operations[]` 의 opcode 와 대응 (SPEC.md §8)",
-            "note": "대상(scope)마다 코드 공간이 분리된다. 특히 0 은 스위치형에서 OFF, 개폐형에서 STOP 이다. 정지 명령은 0 이며 303 은 TIMED_OPEN 이다 — SPEC.md §7 의 이전 표기(STOP=303)는 정정됐다.",
+            "note": "대상(scope)마다 코드 공간이 분리된다. 0 은 스위치형 `OFF`, 개폐형 `STOP` 이다 — **정지 명령은 0**. 305·306 은 표준마다 이름이 다르다(`SET_POSITION`/`MOVE_POSITION`, `SET_CONFIG`/`SET_OC_TIME`).",
             "values": [
+                {
+                    "code": 0,
+                    "name": "OFF / STOP",
+                    "scope": "전체",
+                    "meaning": "정지",
+                    "std": "KS X 3267:2022",
+                    "tier": "normative",
+                    "protocols": [
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 B.3 이 같은 값·이름을 정의한다"
+                },
+                {
+                    "code": 1,
+                    "name": "RESET / REBOOT",
+                    "scope": "노드",
+                    "meaning": "재시작",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
                 {
                     "code": 2,
                     "name": "CONTROL",
                     "scope": "노드",
-                    "meaning": "제어권 설정(로컬, 원격, 수동). B.4 참고",
+                    "meaning": "제어권 변경 — 인자: 제어권 (control)",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 B.3 이 같은 값·이름을 정의한다"
                 },
                 {
-                    "code": 0,
-                    "name": "OFF",
-                    "scope": "스위치형 구동기",
-                    "meaning": "작동 멈춤 (STOP)",
-                    "std": "KS X 3267:2022",
-                    "tier": "normative",
+                    "code": 3,
+                    "name": "SET_TIME",
+                    "scope": "노드",
+                    "meaning": "시간 설정 — 인자: UNIX 시간 (epoch)",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
                     "protocols": [
-                        "10"
+                        "30",
+                        "31"
                     ]
                 },
                 {
                     "code": 201,
                     "name": "ON",
                     "scope": "스위치형 구동기",
-                    "meaning": "작동 시작",
+                    "meaning": "작동",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 B.3 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 202,
                     "name": "TIMED_ON",
                     "scope": "스위치형 구동기",
-                    "meaning": "정해진 특정시간(초) 동안 작동",
+                    "meaning": "시간 작동 — 인자: 작동 시간 (time, hold-time)",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 B.3 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 203,
                     "name": "DIRECTIONAL_ON",
                     "scope": "스위치형 구동기",
-                    "meaning": "정해진 비율(방향/강도)로 정해진 시간동안 작동",
+                    "meaning": "강도 작동 — 인자: 작동 시간 (time, hold-time), 작동 강도 (ratio)",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
-                },
-                {
-                    "code": 0,
-                    "name": "STOP",
-                    "scope": "개폐형 구동기",
-                    "meaning": "동작 멈춤 명령",
-                    "std": "KS X 3267:2022",
-                    "tier": "normative",
-                    "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 B.3 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 301,
                     "name": "OPEN",
                     "scope": "개폐형 구동기",
-                    "meaning": "열림 명령",
+                    "meaning": "열기",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 B.3 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 302,
                     "name": "CLOSE",
                     "scope": "개폐형 구동기",
-                    "meaning": "닫힘 명령",
+                    "meaning": "닫기",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 B.3 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 303,
                     "name": "TIMED_OPEN",
                     "scope": "개폐형 구동기",
-                    "meaning": "구동기가 열림방향으로 일정 시간만큼 작동하도록 하는 명령",
+                    "meaning": "시간 열기 — 인자: 작동 시간 (time)",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 B.3 이 같은 값·이름을 정의한다"
                 },
                 {
                     "code": 304,
                     "name": "TIMED_CLOSE",
                     "scope": "개폐형 구동기",
-                    "meaning": "구동기가 닫힘방향으로 일정 시간만큼 작동하도록 하는 명령",
+                    "meaning": "시간 닫기 — 인자: 작동 시간 (time)",
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 B.3 이 같은 값·이름을 정의한다"
+                },
+                {
+                    "code": 305,
+                    "name": "MOVE_POSITION",
+                    "scope": "개폐형 구동기",
+                    "meaning": "위치 지정 — 인자: 개도율 (position)",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
                     ]
                 },
                 {
@@ -475,6 +604,18 @@
                 },
                 {
                     "code": 306,
+                    "name": "SET_OC_TIME",
+                    "scope": "개폐형 구동기",
+                    "meaning": "열림닫힘 시간 설정 — 인자: 열림 시간 (open-time), 닫힘 시간 (close-time)",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
+                },
+                {
+                    "code": 306,
                     "name": "SET_CONFIG",
                     "scope": "개폐형 구동기",
                     "meaning": "제어기가 구동기노드의 열림/닫힘에 걸리는 초기 설정값을 지정하는 명령",
@@ -485,36 +626,11 @@
                     ]
                 },
                 {
-                    "code": 1,
-                    "name": "RESET",
-                    "scope": "노드",
-                    "meaning": "노드 리셋/재시작",
-                    "std": "KS B 7958-5",
-                    "tier": "draft",
-                    "protocols": [
-                        "30",
-                        "31"
-                    ]
-                },
-                {
-                    "code": 3,
-                    "name": "SET_TIME",
-                    "scope": "노드",
-                    "meaning": "시간 설정 (UNIX epoch)",
-                    "std": "KS B 7958-5",
-                    "tier": "draft",
-                    "protocols": [
-                        "30",
-                        "31"
-                    ]
-                },
-                {
                     "code": 401,
                     "name": "ONCE_SUPPLY",
                     "scope": "양액기",
                     "meaning": "1회 관수",
-                    "alias": "ONCE_WATER",
-                    "std": "KS B 7958-5",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -525,9 +641,8 @@
                     "code": 402,
                     "name": "WATER_SUPPLY",
                     "scope": "양액기",
-                    "meaning": "원수 관수 (구역/시간 지정)",
-                    "alias": "JUST_WATER",
-                    "std": "KS B 7958-5",
+                    "meaning": "원수 관수 — 인자: 관수 시간 (time, on-sec), 시작 구역 (start-area), 종료구역 (stop-area)",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -538,9 +653,8 @@
                     "code": 403,
                     "name": "NUT_SUPPLY",
                     "scope": "양액기",
-                    "meaning": "양액 관수 (구역/시간/EC/pH 지정)",
-                    "alias": "NUT_WATER",
-                    "std": "KS B 7958-5",
+                    "meaning": "양액 관수 — 인자: 관수 시간 (time, on-sec), 시작 구역 (start-area), 종료구역 (stop-area), 전기전도도 (EC), 수소 이온 농도 (pH)",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -551,8 +665,8 @@
                     "code": 404,
                     "name": "AREA_WATER_SUPPLY",
                     "scope": "양액기",
-                    "meaning": "비트맵 기반 원수 관수",
-                    "std": "KS B 7958-5",
+                    "meaning": "구역지정 원수 관수 — 인자: 관수 시간 (time, on-sec), 구역 비트맵 (area-bitmap)",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -563,8 +677,8 @@
                     "code": 405,
                     "name": "AREA_NUT_SUPPLY",
                     "scope": "양액기",
-                    "meaning": "비트맵 기반 양액 관수",
-                    "std": "KS B 7958-5",
+                    "meaning": "구역지정 양액 관수 — 인자: 관수 시간 (time, on-sec), 구역 비트맵 (area-bitmap), 전기전도도 (EC), 수소 이온 농도 (pH)",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -573,10 +687,10 @@
                 },
                 {
                     "code": 501,
-                    "name": "DISPLAY_VALUE",
+                    "name": "VALUE_DISPLAY",
                     "scope": "표시기(FND)",
-                    "meaning": "실수 값 + 소수점 자리수 표시 [value, sig-digit]",
-                    "std": "KS B 7958-5",
+                    "meaning": "값 표시 — 인자: 표시 값 (value), 유효 자리수 (sig-digit)",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -585,10 +699,10 @@
                 },
                 {
                     "code": 502,
-                    "name": "DISPLAY_TIME",
+                    "name": "TIME_DISPLAY",
                     "scope": "표시기(FND)",
-                    "meaning": "UNIX epoch 시간 표시 [epoch]",
-                    "std": "KS B 7958-5",
+                    "meaning": "시간 표시 — 인자: UNIX 시간 (epoch)",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -597,10 +711,10 @@
                 },
                 {
                     "code": 503,
-                    "name": "DISPLAY_ERROR",
+                    "name": "CODE_DISPLAY",
                     "scope": "표시기(FND)",
-                    "meaning": "에러 코드 표시 [short]",
-                    "std": "KS B 7958-5",
+                    "meaning": "코드 표시 — 인자: 사용자 지정 코드 (short)",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -610,10 +724,10 @@
             ]
         },
         "control": {
-            "source": "KS X 3267:2022 부속서 B.4",
-            "standard": "KS X 3267",
+            "source": "표준별로 다름 — 각 값의 std 참조",
+            "standard": "KS X 3267 / KS B 7958",
             "applies-to": "read/write 영역 `control` 아이템 (SPEC.md §5.2 · §5.3 · §6.1)",
-            "note": "`control` 아이템이 없는 규격은 그 노드에 제어권 개념이 없다는 뜻이다 (SPEC.md §5.2). 코드 3 의 정식 이름은 `MANUAL` 이다 — KS X 3267:2022 부속서 B.4 · KS B 7958-5 부속서 B.2 · 참조 구현이 모두 일치한다. `IMMUTABLE_LOCAL_MANUAL` 은 '레지스터로 변경 불가'를 풀어 쓴 설명이지 코드명이 아니다.",
+            "note": "`control` 아이템이 없는 규격은 그 노드에 제어권 개념이 없다는 뜻이다 (SPEC.md §5.2). **코드 3 의 이름이 표준마다 다르다** — KS X 3267 은 `MANUAL`, KS B 7958-5 는 `IMMUTABLE_LOCALMANUAL`(원격 불가, 수동 제어). 값은 같고 이름만 다르다.",
             "values": [
                 {
                     "code": 1,
@@ -623,8 +737,11 @@
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
-                    ]
+                        "10",
+                        "30",
+                        "31"
+                    ],
+                    "also": "KS B 7958-5:2027 B.2 국문명 '자체 제어'"
                 },
                 {
                     "code": 2,
@@ -634,7 +751,9 @@
                     "std": "KS X 3267:2022",
                     "tier": "normative",
                     "protocols": [
-                        "10"
+                        "10",
+                        "30",
+                        "31"
                     ]
                 },
                 {
@@ -647,21 +766,33 @@
                     "protocols": [
                         "10"
                     ]
+                },
+                {
+                    "code": 3,
+                    "name": "IMMUTABLE_LOCALMANUAL",
+                    "scope": "노드",
+                    "meaning": "원격 불가 (수동 제어)",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ]
                 }
             ]
         },
         "nutrient-alert": {
-            "source": "KS B 7958-5 부속서 (양액기 경보)",
-            "standard": "KS B 7958",
+            "source": "KS B 7958-5:2027 부속서",
+            "standard": "KS X 3267 / KS B 7958",
             "applies-to": "read 영역 `alert` 아이템 (SPEC.md §6.1)",
-            "note": "**초안 근거(tier=draft).** 발행 시 바뀔 수 있다.",
+            "note": "전 항목이 KS B 7958-5 초안 근거다.",
             "values": [
                 {
                     "code": 0,
                     "name": "NORMAL",
                     "scope": "양액기",
                     "meaning": "정상",
-                    "std": "KS B 7958-5",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -670,10 +801,10 @@
                 },
                 {
                     "code": 1,
-                    "name": "HIGH_CONCENTRATION_EC",
+                    "name": "HIGH_EC",
                     "scope": "양액기",
-                    "meaning": "EC 농도 높음",
-                    "std": "KS B 7958-5",
+                    "meaning": "높은 EC",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -682,10 +813,10 @@
                 },
                 {
                     "code": 2,
-                    "name": "LOW_CONCENTRATION_EC",
+                    "name": "LOW_EC",
                     "scope": "양액기",
-                    "meaning": "EC 농도 낮음",
-                    "std": "KS B 7958-5",
+                    "meaning": "낮은 EC",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -694,10 +825,10 @@
                 },
                 {
                     "code": 3,
-                    "name": "HIGH_CONCENTRATION_PH",
+                    "name": "HIGH_PH",
                     "scope": "양액기",
-                    "meaning": "pH 높음",
-                    "std": "KS B 7958-5",
+                    "meaning": "높은 pH",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -706,10 +837,10 @@
                 },
                 {
                     "code": 4,
-                    "name": "LOW_CONCENTRATION_PH",
+                    "name": "LOW_PH",
                     "scope": "양액기",
-                    "meaning": "pH 낮음",
-                    "std": "KS B 7958-5",
+                    "meaning": "낮은 pH",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -718,10 +849,10 @@
                 },
                 {
                     "code": 5,
-                    "name": "LOW_FLOW_ALARM",
+                    "name": "LOW_FLOW",
                     "scope": "양액기",
-                    "meaning": "유량 부족 경보",
-                    "std": "KS B 7958-5",
+                    "meaning": "저유량",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -730,10 +861,10 @@
                 },
                 {
                     "code": 6,
-                    "name": "HIGH_TEMPERATURE_ALARM",
+                    "name": "HIGH_TEMP",
                     "scope": "양액기",
-                    "meaning": "고온 경보",
-                    "std": "KS B 7958-5",
+                    "meaning": "고온",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -742,10 +873,10 @@
                 },
                 {
                     "code": 7,
-                    "name": "LOW_TEMPERATURE_ALARM",
+                    "name": "LOW_TEMP",
                     "scope": "양액기",
-                    "meaning": "저온 경보",
-                    "std": "KS B 7958-5",
+                    "meaning": "저온",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -756,8 +887,8 @@
                     "code": 8,
                     "name": "ABNORMAL",
                     "scope": "양액기",
-                    "meaning": "이상",
-                    "std": "KS B 7958-5",
+                    "meaning": "기타 경보",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -768,8 +899,8 @@
                     "code": 9,
                     "name": "LOW_LEVEL",
                     "scope": "양액기",
-                    "meaning": "수위 낮음",
-                    "std": "KS B 7958-5",
+                    "meaning": "저수위",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -781,7 +912,7 @@
                     "name": "OVERLOAD",
                     "scope": "양액기",
                     "meaning": "과부하",
-                    "std": "KS B 7958-5",
+                    "std": "KS B 7958-5:2027",
                     "tier": "draft",
                     "protocols": [
                         "30",
@@ -789,35 +920,652 @@
                     ]
                 }
             ]
+        },
+        "device-type": {
+            "source": "KS B 7958-5:2027 부속서",
+            "standard": "KS X 3267 / KS B 7958",
+            "applies-to": "장비 정보 영역(devinfo)의 device code (SPEC.md §2.2 · §4.1 · §9)",
+            "note": "SPEC.md §4.1 이 참조만 하고 값을 싣지 않던 표다. 센서 24종 + 구동기 13종.",
+            "values": [
+                {
+                    "code": 1,
+                    "name": "air-temperature-sensor",
+                    "scope": "센서",
+                    "meaning": "온도센서 [°C]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "환경"
+                },
+                {
+                    "code": 2,
+                    "name": "(relative-)humidity-sensor",
+                    "scope": "센서",
+                    "meaning": "(상대)습도센서 [%RH]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "환경"
+                },
+                {
+                    "code": 3,
+                    "name": "dewpoint-sensor",
+                    "scope": "센서",
+                    "meaning": "이슬점센서 [°C]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "환경"
+                },
+                {
+                    "code": 4,
+                    "name": "rain-detector",
+                    "scope": "센서",
+                    "meaning": "감우센서",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "환경"
+                },
+                {
+                    "code": 6,
+                    "name": "rainfall-sensor",
+                    "scope": "센서",
+                    "meaning": "강우센서 [mm]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "환경"
+                },
+                {
+                    "code": 7,
+                    "name": "pyranometer",
+                    "scope": "센서",
+                    "meaning": "일사센서 [W/m²]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "환경"
+                },
+                {
+                    "code": 8,
+                    "name": "wind-speed-sensor",
+                    "scope": "센서",
+                    "meaning": "풍속센서 [m/s]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "환경"
+                },
+                {
+                    "code": 9,
+                    "name": "wind-direction-sensor",
+                    "scope": "센서",
+                    "meaning": "풍향센서 [°]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "환경"
+                },
+                {
+                    "code": 13,
+                    "name": "quantum-sensor",
+                    "scope": "센서",
+                    "meaning": "광양자센서 [μmol·m⁻²·s⁻¹]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "환경"
+                },
+                {
+                    "code": 25,
+                    "name": "barometric-pressure-sensor",
+                    "scope": "센서",
+                    "meaning": "기압센서 [hPa]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "환경"
+                },
+                {
+                    "code": 26,
+                    "name": "wet-bulb-temperature-sensor",
+                    "scope": "센서",
+                    "meaning": "습구온도센서 [°C]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "환경"
+                },
+                {
+                    "code": 11,
+                    "name": "CO2-sensor",
+                    "scope": "센서",
+                    "meaning": "이산화탄소센서 [ppm]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "환경"
+                },
+                {
+                    "code": 14,
+                    "name": "soil-moisture-sensor",
+                    "scope": "센서",
+                    "meaning": "토양함수율센서 [%VWC]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "토양/배지"
+                },
+                {
+                    "code": 15,
+                    "name": "tensiometer",
+                    "scope": "센서",
+                    "meaning": "토양수분장력센서 [kPa]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "토양/배지"
+                },
+                {
+                    "code": 17,
+                    "name": "soil-temperature-sensor",
+                    "scope": "센서",
+                    "meaning": "지온센서 [°C]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "토양/배지"
+                },
+                {
+                    "code": 5,
+                    "name": "cumulative-flow-sensor",
+                    "scope": "센서",
+                    "meaning": "누적유량센서 [L]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "관수/양액"
+                },
+                {
+                    "code": 12,
+                    "name": "EC-sensor",
+                    "scope": "센서",
+                    "meaning": "EC센서 [dS/m]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "관수/양액"
+                },
+                {
+                    "code": 16,
+                    "name": "pH-sensor",
+                    "scope": "센서",
+                    "meaning": "pH센서 [pH]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "관수/양액"
+                },
+                {
+                    "code": 19,
+                    "name": "low-water-level-detector",
+                    "scope": "센서",
+                    "meaning": "저수위센서",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "관수/양액"
+                },
+                {
+                    "code": 27,
+                    "name": "leaf-temperature-sensor",
+                    "scope": "센서",
+                    "meaning": "엽온센서 [°C]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "작물"
+                },
+                {
+                    "code": 28,
+                    "name": "leaf-wetness-sensor",
+                    "scope": "센서",
+                    "meaning": "엽면습윤센서 [%]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "작물"
+                },
+                {
+                    "code": 29,
+                    "name": "stem-diameter-sensor",
+                    "scope": "센서",
+                    "meaning": "줄기직경센서 [mm]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "작물"
+                },
+                {
+                    "code": 30,
+                    "name": "fruit-diameter-sensor",
+                    "scope": "센서",
+                    "meaning": "과실직경센서 [mm]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "작물"
+                },
+                {
+                    "code": 31,
+                    "name": "fruit-length-sensor",
+                    "scope": "센서",
+                    "meaning": "과실길이센서 [mm]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "작물"
+                },
+                {
+                    "code": 32,
+                    "name": "brix-sensor",
+                    "scope": "센서",
+                    "meaning": "당도센서 [°Brix]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "작물"
+                },
+                {
+                    "code": 33,
+                    "name": "fruit-firmness-sensor",
+                    "scope": "센서",
+                    "meaning": "과실경도센서 [N]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "작물"
+                },
+                {
+                    "code": 34,
+                    "name": "chlorophyll-sensor",
+                    "scope": "센서",
+                    "meaning": "엽록소센서 [SPAD index]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "작물"
+                },
+                {
+                    "code": 18,
+                    "name": "weight-sensor",
+                    "scope": "센서",
+                    "meaning": "무게센서 [kg]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "설비/전기"
+                },
+                {
+                    "code": 10,
+                    "name": "voltage-sensor",
+                    "scope": "센서",
+                    "meaning": "전압센서 [V]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "설비/전기"
+                },
+                {
+                    "code": 21,
+                    "name": "watt-hour-meter",
+                    "scope": "센서",
+                    "meaning": "전력량계 [kWh]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "설비/전기"
+                },
+                {
+                    "code": 22,
+                    "name": "current-sensor",
+                    "scope": "센서",
+                    "meaning": "전류센서 [A]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "설비/전기"
+                },
+                {
+                    "code": 23,
+                    "name": "battery-level-sensor",
+                    "scope": "센서",
+                    "meaning": "배터리 잔량 센서 [%]",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "설비/전기"
+                },
+                {
+                    "code": 20,
+                    "name": "high-temperature-detector",
+                    "scope": "센서",
+                    "meaning": "고온센서",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "상태/이벤트"
+                },
+                {
+                    "code": 24,
+                    "name": "event-detector",
+                    "scope": "센서",
+                    "meaning": "이벤트 발생기",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "상태/이벤트"
+                },
+                {
+                    "code": 101,
+                    "name": "switch/level0",
+                    "scope": "구동기",
+                    "meaning": "스위치 레벨0",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "스위치"
+                },
+                {
+                    "code": 102,
+                    "name": "switch/level1",
+                    "scope": "구동기",
+                    "meaning": "스위치 레벨1",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "스위치"
+                },
+                {
+                    "code": 103,
+                    "name": "switch/level2",
+                    "scope": "구동기",
+                    "meaning": "스위치 레벨2",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "스위치"
+                },
+                {
+                    "code": 111,
+                    "name": "retractable/level0",
+                    "scope": "구동기",
+                    "meaning": "개폐기 레벨0",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "개폐기"
+                },
+                {
+                    "code": 112,
+                    "name": "retractable/level1",
+                    "scope": "구동기",
+                    "meaning": "개폐기 레벨1",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "개폐기"
+                },
+                {
+                    "code": 113,
+                    "name": "retractable/level2",
+                    "scope": "구동기",
+                    "meaning": "개폐기 레벨2",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "개폐기"
+                },
+                {
+                    "code": 201,
+                    "name": "nutrient-supply/level0",
+                    "scope": "구동기",
+                    "meaning": "양액기 레벨0",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "양액기"
+                },
+                {
+                    "code": 202,
+                    "name": "nutrient-supply/level1",
+                    "scope": "구동기",
+                    "meaning": "양액기 레벨1",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "양액기"
+                },
+                {
+                    "code": 203,
+                    "name": "nutrient-supply/level2",
+                    "scope": "구동기",
+                    "meaning": "양액기 레벨2",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "양액기"
+                },
+                {
+                    "code": 204,
+                    "name": "nutrient-supply/level3",
+                    "scope": "구동기",
+                    "meaning": "양액기 레벨3",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "양액기"
+                },
+                {
+                    "code": 205,
+                    "name": "nutrient-supply/level4",
+                    "scope": "구동기",
+                    "meaning": "양액기 레벨4",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "양액기"
+                },
+                {
+                    "code": 301,
+                    "name": "fnd",
+                    "scope": "구동기",
+                    "meaning": "표시기",
+                    "std": "KS B 7958-5:2027",
+                    "tier": "draft",
+                    "protocols": [
+                        "30",
+                        "31"
+                    ],
+                    "category": "표시기"
+                }
+            ]
         }
     },
     "interop-notes": {
-        "description": "표준 코드가 현장 구현에서 어떻게 갈리는지에 대한 관찰. **코드 정의가 아니다.** 값을 여기서 읽지 말 것 — 이 파일의 codes 블록이 정본이다. 오진을 막기 위한 주의 사항이다.",
+        "description": "표준 간 · 표준↔구현 간 코드 해석이 갈리는 지점. **코드 정의가 아니다** — 값은 이 파일의 codes 블록이 정본이다. 오진을 막기 위한 주의 사항이다.",
         "observed-2026-08-17": [
-            "KS X 3267:2022 부속서 B",
-            "KS B 7958-5 초안(ksdevice 참조 구현)",
+            "KS X 3267:2022 부속서 B (발행본)",
+            "KS B 7958-5:2027 부속서 A·B (2026-draft-rev6)",
+            "ksdevice 참조 구현",
             "FarmOS v5 message-codes 스냅샷(구현)"
         ],
         "notes": [
             {
-                "topic": "수동 상태의 표현이 protocol 마다 다르다",
+                "topic": "수동 상태의 표현이 표준마다 다르다",
                 "severity": "high",
-                "detail": "같은 '사람이 손으로 조작 중'을 KS X 3267 은 스위치 299(USER_CONTROL)·개폐 399(MANUAL_CONTROL) 로, KS B 7958-5 초안은 스위치 202·개폐 303/304 로 표현한다. FarmOS 구현은 921/931/932 를 쓴다. **status 값만 보고 표준을 단정할 수 없다 — protocol 을 먼저 확인해야 한다.**"
+                "detail": "같은 '사람이 손으로 조작 중'을 KS X 3267 은 스위치 299(USER_CONTROL)·개폐 399(MANUAL_CONTROL) 로, KS B 7958-5 는 스위치 202(MANUAL_WORKING)·개폐 303/304(MANUAL_OPENING/CLOSING) 로 표현한다. FarmOS 구현은 또 다르게 921/931/932 를 쓴다. **status 값만으로 표준을 단정할 수 없다 — protocol 을 먼저 확인해야 한다.**"
             },
             {
                 "topic": "status 와 operation 은 다른 네임스페이스다",
                 "severity": "high",
-                "detail": "KS B 7958-5 초안에서 status 303/304 는 MANUAL_OPENING/MANUAL_CLOSING 인데, operation 303/304 는 TIMED_OPEN/TIMED_CLOSE 다. 같은 숫자가 읽기 영역과 쓰기 영역에서 전혀 다른 뜻이다. 프레임 해석 시 어느 영역인지 먼저 확정할 것."
+                "detail": "KS B 7958-5 에서 status 303/304 는 MANUAL_OPENING/MANUAL_CLOSING 인데 operation 303/304 는 TIMED_OPEN/TIMED_CLOSE 다. 같은 숫자가 읽기 영역과 쓰기 영역에서 전혀 다른 뜻이다. 프레임 해석 시 어느 영역인지 먼저 확정할 것."
             },
             {
-                "topic": "operation 306 의 의미가 구현마다 갈린다",
-                "severity": "high",
-                "detail": "KS X 3267 `SET_CONFIG`(개폐 초기 설정값)와 KS B 7958-5 `SET_OC_TIME`(개폐 시간 설정)은 같은 것이다. 그러나 FarmOS 구현은 306 을 `SET_TIME`(시간 설정)으로 쓴다 — **다른 기능이다.** FarmOS 는 SET_CONFIG 를 1201 로 따로 둔다."
-            },
-            {
-                "topic": "operation 3 이 구현마다 다르다",
+                "topic": "제어권 3 의 이름이 표준마다 다르다 — 오류가 아니다",
                 "severity": "medium",
-                "detail": "KS B 7958-5 초안은 3=SET_TIME, FarmOS 구현은 3=SET_CURRENT. 표준 미확정 구간이다."
+                "detail": "KS X 3267 B.4 는 `MANUAL`(수동 제어), KS B 7958-5 B.2 는 `IMMUTABLE_LOCALMANUAL`(원격 불가, 수동 제어). **값(3)과 뜻이 같으므로 어느 쪽도 틀리지 않았다.** protocol 에 맞는 이름을 쓸 것. 구현(ksdevice·FarmOS)은 `MANUAL` 을 식별자로 쓰고 IMMUTABLE_LOCALMANUAL 을 주석으로 둔다."
+            },
+            {
+                "topic": "status 201 의 이름이 표준마다 다르다",
+                "severity": "low",
+                "detail": "KS X 3267 은 `ON`(작동 중(WORKING)), KS B 7958-5 는 `WORKING`(작동중). 값·뜻 동일."
+            },
+            {
+                "topic": "operation 305·306 의 이름이 표준마다 다르다",
+                "severity": "low",
+                "detail": "305 는 `SET_POSITION`(KS X 3267)/`MOVE_POSITION`(KS B 7958-5), 306 은 `SET_CONFIG`/`SET_OC_TIME`. 값·기능 동일 — 306 은 열림·닫힘 소요 시간의 초기 설정이다."
+            },
+            {
+                "topic": "FarmOS 는 operation 306 을 다른 기능에 쓴다",
+                "severity": "high",
+                "detail": "두 표준이 306 을 개폐 시간 설정(SET_CONFIG/SET_OC_TIME)으로 정의하는 반면, FarmOS 구현은 306 을 `SET_TIME`(시간 설정)으로 쓰고 SET_CONFIG 를 1201 로 따로 둔다. **다른 기능이다.** 표준은 시간 설정을 operation 3(SET_TIME)으로 둔다."
             },
             {
                 "topic": "FarmOS 가 KS X 3267 예약 구간을 쓴다",
@@ -827,17 +1575,17 @@
             {
                 "topic": "FarmOS 9xx 는 제조사 정의 구간이다",
                 "severity": "low",
-                "detail": "921·931·932·9xx overload 계열은 KS X 3267 이 VENDOR_SPECIFIC_ERROR 로 열어 둔 900~999 안에 있다. 규격 위반은 아니나 **이식성이 없다** — 다른 벤더 장비에서 같은 뜻이 아니다."
+                "detail": "921·931·932·9xx overload 계열은 두 표준이 VENDOR_SPECIFIC_ERROR 로 열어 둔 900~999 안에 있다. 규격 위반은 아니나 **이식성이 없다** — 다른 벤더 장비에서 같은 뜻이 아니다."
             },
             {
-                "topic": "값은 같고 이름 표기만 다른 경우가 많다",
+                "topic": "값은 같고 이름 표기만 다른 경우는 불일치가 아니다",
                 "severity": "low",
-                "detail": "VOLTAGE_ERROR↔ERROR_VOLTAGE, NEED_REPLACE↔NEEDTOCHANGE, ON↔WORKING(status 201), SET_POSITION↔POSITION, CONTROL↔CHANGE_CONTROL. **값이 같으면 같은 것이다** — 이름 차이를 불일치로 보고하지 말 것."
+                "detail": "구현 식별자와 표준 이름이 갈리는 예: NEED_REPLACE↔NEEDTOCHANGE, VOLTAGE_ERROR↔ERROR_VOLTAGE, VALUE_DISPLAY↔DISPLAY_VALUE(어순 반대). **값이 같으면 같은 것이다** — 이름 차이를 불일치로 보고하지 말 것."
             },
             {
-                "topic": "양액기 4xx 의 이름 체계가 갈린다",
+                "topic": "양액기 4xx 의 이름 체계가 구현마다 갈린다",
                 "severity": "medium",
-                "detail": "KS B 7958-5 초안은 401 ONCE_SUPPLY · 402 WATER_SUPPLY(원수) · 403 NUT_SUPPLY(양액) 이지만, FarmOS 구현은 402 AREA_WATERING · 403 PARAMED_WATERING 으로 축이 다르다. FarmOS 는 47x·48x·49x 에 대량의 자체 관수 명령을 둔다 — 전부 표준 밖이다."
+                "detail": "KS B 7958-5 는 401 ONCE_SUPPLY · 402 WATER_SUPPLY(원수) · 403 NUT_SUPPLY(양액) · 404/405 구역지정 관수다. FarmOS 는 402 AREA_WATERING · 403 PARAMED_WATERING 으로 축이 다르고, 47x·48x·49x 에 대량의 자체 관수 명령을 둔다 — 전부 표준 밖이다."
             }
         ]
     }

@@ -145,7 +145,7 @@
 | `actuator` | `switch/level0..2`, `retractable/level0..2`, `nutrient-supply/level0..4` | level 별로 명령 셋이 다름 |
 | `actuator` (표시기) | `fnd` | device code 301 |
 
-전체 device code 표는 KS B 7958-5 부속서 A.2 (장치의 종류) 참고.
+전체 device code 표는 [`../specs/codes.json`](../specs/codes.json) 의 `device-type` 에 있다 (근거: KS B 7958-5 부속서 A.2 센서 정보 · A.3 구동기 정보 · §7.1). **참조가 아니라 데이터다** — 도구가 device code 를 상수로 들고 있으면 안 된다.
 
 ### 4.2 구동기 level 의미
 
@@ -208,7 +208,7 @@
 |------|:----:|------|
 | `status` | 1 | 노드 상태 코드 |
 | `opid` | 1 | 가장 최근 처리된 명령 ID |
-| `control` | 1 | 제어권 (1=LOCAL, 2=REMOTE, 3=MANUAL) — 필드 부재 시 노드에 제어권 개념 없음. 값의 정본은 [`../specs/codes.json`](../specs/codes.json) (§7.1) |
+| `control` | 1 | 제어권 (1=LOCAL, 2=REMOTE, 3=`IMMUTABLE_LOCALMANUAL`(KS B 7958-5) / `MANUAL`(KS X 3267)) — 필드 부재 시 노드에 제어권 개념 없음. **값의 정본은 [`../specs/codes.json`](../specs/codes.json)** (§7.1) |
 
 ### 5.3 노드 write items 의 표준 항목
 
@@ -329,9 +329,12 @@ command code 의 정본은 [`../specs/codes.json`](../specs/codes.json) 이다 (
 **정지 명령은 `0` 이다.** `303` 은 `TIMED_OPEN`(열림방향 일정 시간 작동)이다 —
 KS X 3267:2022 부속서 B.3. 이전 판본의 이 절은 `STOP=303` 이라 적고 있었다.
 
-양액기(`ONCE_SUPPLY=401` · `WATER_SUPPLY=402` · `NUT_SUPPLY=403`)와 표시기
-(`DISPLAY_VALUE=501`)는 KS X 3267 범위 밖이며 KS B 7958 계열에서 정의된다 —
-아직 `codes.json` 에 수록되지 않았다(§7.1).
+양액기(`ONCE_SUPPLY=401` · `WATER_SUPPLY=402` · `NUT_SUPPLY=403` · `AREA_WATER_SUPPLY=404` ·
+`AREA_NUT_SUPPLY=405`)와 표시기(`VALUE_DISPLAY=501` · `TIME_DISPLAY=502` · `CODE_DISPLAY=503`)는
+KS X 3267 범위 밖이며 **KS B 7958-5 부속서 B.3** 이 정의한다 — `codes.json` 에 수록돼 있다(§7.1).
+
+개폐기 305·306 은 표준마다 이름이 다르다 — `SET_POSITION`/`MOVE_POSITION`,
+`SET_CONFIG`/`SET_OC_TIME`. 값과 기능은 같다.
 
 `write.operations[]` (§8) 가 정의된 경우 `opcode` 필드는 command code 와 일치
 한다 — 파서가 수신한 operation 값으로 opcode 별 layout 을 선택하는 것이 §8 의
@@ -348,10 +351,13 @@ KS X 3267:2022 부속서 B.3. 이전 판본의 이 절은 `STOP=303` 이라 적�
 | 근거 | tier | protocol | 내용 |
 |---|---|---|---|
 | **KS X 3267:2022 부속서 B** (발행본) | `normative` | `10` | 제품 타입 · 상태 · 명령 · 제어권 |
-| **KS B 7958-5** (제정 협의 중) | `draft` | `30` · `31` | 수동 상태 · 양액기 상태 · 노드/양액기/표시기 명령 · **양액기 경보(`alert`)** |
+| **KS B 7958-5:2027 부속서 A·B** (제정 협의 중, `2026-draft-rev6`) | `draft` | `30` · `31` | 위 전부 + **양액기 경보(`alert`)** · **device code(`device-type`)** · 게이트웨이 노드 타입 |
 
-KS B 7958-5 는 아직 발행 전이므로 원문 초안(docx)을 아카이브에 두지 않고, 부속서 번호를
-명시한 참조 구현(`ksdevice`)을 경유해 값만 싣는다. **`draft` 값은 발행 시 바뀔 수 있다.**
+부속서 A·B 는 **규정(normative) 부속서**이나 **표준 자체가 발행 전**이다. 원문 초안(docx)은
+아카이브에 두지 않고 값만 싣는다. **`draft` 값은 발행 시 바뀔 수 있다.**
+
+두 표준이 같은 코드를 정의하는 경우 값은 같고 **이름이 갈리는 지점이 있다** — 각 값의
+`std` 와 `also` 를 확인할 것. 갈리는 지점은 §7.1 아래 `interop-notes` 가 모아 둔다.
 
 수록되지 않은 코드를 만나면 소비처는 **추측하거나 구현체에서 옮겨 오면 안 된다** —
 '아카이브에 근거가 없다'고 말할 것.
@@ -364,8 +370,11 @@ KS B 7958-5 는 아직 발행 전이므로 원문 초안(docx)을 아카이브�
 코드 정의가 아니라 오진 방지용 주의 사항이다. 특히 **수동 상태의 표현이 protocol 마다
 다르고**, **`status` 와 `operation` 은 같은 숫자가 다른 뜻**이다.
 
-> 이전 판본이 남겨 두었던 불일치 2건은 모두 해소됐다 — `operation` 의 `STOP`(정지는
-> `0`, `303` 은 `TIMED_OPEN`)과 `control` 코드 3(`MANUAL`).
+> `operation` 의 `STOP` 표기 오류는 해소됐다 — 정지는 `0`, `303` 은 `TIMED_OPEN` 이다.
+>
+> `control` 코드 3 은 **오류가 아니라 표준 간 차이**였다. KS X 3267 은 `MANUAL`,
+> KS B 7958-5 는 `IMMUTABLE_LOCALMANUAL` 이다. 값(3)과 뜻(원격으로 바꿀 수 없는 수동)은
+> 같으므로 어느 쪽도 틀리지 않았다 — **protocol 에 따라 이름을 골라야 한다.**
 
 ---
 
