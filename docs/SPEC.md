@@ -1,6 +1,6 @@
 # 장비 규격 (Description Specification) 
 
-본 문서는 한국 산업표준 (KS X 3267/3286/3288, KS B 7958-1..4) 의 스마트 온실 장비 통신 규격을 JSON 파일로 표현하기 위한 **장비 규격 파일 형식** 을 정의한다. 
+본 문서는 한국 산업표준 (KS X 3267/3286/3288, KS B 7958-1..5) 의 스마트 온실 장비 통신 규격을 JSON 파일로 표현하기 위한 **장비 규격 파일 형식** 을 정의한다. 
 
 ## 목차
 
@@ -282,6 +282,8 @@ KS X 3288 이 정의하므로, protocol 10 노드에 달려도 라벨은 `KS X 3
 | `control` | 1 | uint16 | 제어권 |
 | `ratio`, `position` | 1 | uint16 | 스위치 비율 / 개폐기 위치 |
 | `area`, `alert` | 1 | uint16 | 양액기 zone / 경고 |
+| `zone-id` | 1 | uint16 | 노드가 위치한 농장 내 구역 식별자 (`0`=온실 외부) |
+| `pos-x`, `pos-y`, `pos-z` | 2 | **int32 (signed)** | 위치 이동형 노드의 좌표 (cm) |
 | `remain-time`, `hold-time`, `time` | 2 | int32 | 잔여/유지/지속 시간 (초) |
 | `on-sec`, `remain-sec` | 2 | int32 | 양액기 관수·잔여 시간(초) |
 | `start-area`, `stop-area` | 1 | uint16 | 양액기 관수 시작구역/종료구역 |
@@ -314,6 +316,17 @@ registers[addr+1] = hi
 `sig-digit`, `tz-offset` 은 16-bit signed 정수로 해석한다 (two's complement).
 파서는 sign-extend 처리해야 한다 — 그렇지 않으면 음수가 큰 unsigned 로 잘못
 읽힌다 (`-3` → `65533`).
+
+`pos-x` · `pos-y` · `pos-z` 는 **32-bit signed** 다 (2 레지스터, §6.2 의 word order
+적용). **부호는 선택 사항이 아니다** — ECEF 좌표계는 지구 중심이 원점이라 세 축 모두
+음수를 갖고, 온실 내부 좌표계도 원점을 온실 한가운데로 잡으면 음수가 나온다.
+unsigned 로 읽으면 음수 좌표가 20억대의 양수로 뒤집힌다.
+
+```python
+import struct
+lo, hi = registers[addr], registers[addr + 1]
+pos_x = struct.unpack('<i', struct.pack('<2H', lo, hi))[0]   # cm
+```
 
 ---
 
@@ -673,7 +686,8 @@ protocol-specific 과 단일 장비는 노드 protocol 이 일치할 때만 적�
 표준 간 충돌 시 **KS B 7958 (2024)** 이 우선한다.
 
 다음 표준들은 제정 협의 중 (P1~P5) 으로, 제정되면 본 표준들이 우선한다
-(2026-draft-rev4 기준 — rev2 에서 4부 → 5부로 재배치됨):
+(P1 `2026-draft-rev4` / P2 · P4 `2026-draft-rev5` / P3 `2026-draft-rev3` /
+P5 `2026-draft-rev6` 기준 — rev2 에서 4부 → 5부로 재배치됨):
 
 - **KS B 7958-1** (P1) — 일반 요구사항
 - **KS B 7958-2** (P2) — 부가 장비와 추가 기능
