@@ -22,5 +22,5 @@
     "21": { "Class" : "sensor", "Type" : "watt-hour-meter", "Model" : "SEN-WHM", "Name" : "전력량계", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } },
     "22": { "Class" : "sensor", "Type" : "current-sensor", "Model" : "SEN-CUR", "Name" : "전류센서", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } },
     "23": { "Class" : "sensor", "Type" : "battery-sensor", "Model" : "SEN-BAT", "Name" : "배터리잔량센서", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } },
-    "24": { "Class" : "sensor", "Type" : "event-trigger", "Model" : "SEN-EVT", "Name" : "이벤트발생기", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } }
+    "24": { "Class" : "sensor", "Type" : "event-trigger", "Model" : "SEN-EVT", "Name" : "이벤트발생기", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "event", "blank"] } } } }
 }

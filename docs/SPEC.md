@@ -141,11 +141,32 @@
 
 | Class | Type 예 | 비고 |
 |-------|---------|------|
-| `sensor` | `temperature-sensor`, `humidity-sensor`, `EC-sensor`, `pH-sensor`, `cumulative-flow-sensor`, ... | KS B 7958-5 부속서 A.2 |
+| `sensor` | `air-temperature-sensor`, `EC-sensor`, `pH-sensor`, `cumulative-flow-sensor`, `event-detector`, ... | KS B 7958-5 부속서 A.2 |
 | `actuator` | `switch/level0..2`, `retractable/level0..2`, `nutrient-supply/level0..4` | level 별로 명령 셋이 다름 |
 | `actuator` (표시기) | `fnd` | device code 301 |
 
 전체 device code 표는 [`../specs/codes.json`](../specs/codes.json) 의 `device-type` 에 있다 (근거: KS B 7958-5 부속서 A.2 센서 정보 · A.3 구동기 정보 · §7.1). **참조가 아니라 데이터다** — 도구가 device code 를 상수로 들고 있으면 안 된다.
+
+#### 번들 vendor pack 이 구 영문명을 쓰는 코드가 있다 (의도적 보류)
+
+`codes.json` 은 **KS B 7958-5 rev6 의 현행 영문명**을 싣지만, `specs/defaults/devices/`
+의 센서 템플릿 4종은 **구 영문명을 그대로 유지**하고 있다:
+
+| device code | `codes.json` (현행) | 템플릿 (유지) |
+|---|---|---|
+| 1 | `air-temperature-sensor` | `temperature-sensor` |
+| 2 | `(relative-)humidity-sensor` | `humidity-sensor` |
+| 23 | `battery-level-sensor` | `battery-sensor` |
+| 24 | `event-detector` | `event-trigger` |
+
+**오타가 아니라 보류다.** rev5 가 이 4종의 영문 식별자를 바꿨는데 코드값은 그대로여서
+통신은 깨지지 않는 대신 식별자를 키로 쓰는 구현물이 전부 영향을 받는다. 표준 쪽에서
+구 표기의 별칭 병기 여부가 정해지기 전까지 배포된 `Type` 문자열을 바꾸지 않는다.
+
+구 표기는 각 값의 `deprecated-alias` 에 **데이터로** 실려 있다. 검사 도구는 `Type` 을
+`name` 뿐 아니라 `deprecated-alias` 와도 대조해야 한다 — 그러지 않으면 이 4종이
+`unknown-type` (§9.1.3) 으로 떨어지고, **코드 0 으로 해석돼 슬롯 대조가 통째로 꺼진다**
+(§9.1.1 이 경고하는 상태).
 
 ### 4.2 구동기 level 의미
 
@@ -271,30 +292,61 @@ KS X 3288 이 정의하므로, protocol 10 노드에 달려도 라벨은 `KS X 3
 
 ### 6.1 표준 아이템 타입
 
-| 아이템 | regs | 데이터 타입 | 용도 |
-|--------|:----:|------------|------|
-| `value` | 2 | float (IEEE 754) | 센서 측정값 |
-| `EC` | 2 | float | 양액기 EC |
-| `pH` | 2 | float | 양액기 pH |
-| `status` | 1 | uint16 | 상태 코드 |
-| `opid` | 1 | uint16 | 명령 ID (1-65535, 0 미사용) |
-| `operation` | 1 | uint16 | 명령 코드 |
-| `control` | 1 | uint16 | 제어권 |
-| `ratio`, `position` | 1 | uint16 | 스위치 비율 / 개폐기 위치 |
-| `area`, `alert` | 1 | uint16 | 양액기 zone / 경고 |
-| `zone-id` | 1 | uint16 | 노드가 위치한 농장 내 구역 식별자 (`0`=온실 외부) |
-| `pos-x`, `pos-y`, `pos-z` | 2 | **int32 (signed)** | 위치 이동형 노드의 좌표 (cm) |
-| `remain-time`, `hold-time`, `time` | 2 | int32 | 잔여/유지/지속 시간 (초) |
-| `on-sec`, `remain-sec` | 2 | int32 | 양액기 관수·잔여 시간(초) |
-| `start-area`, `stop-area` | 1 | uint16 | 양액기 관수 시작구역/종료구역 |
-| `open-time`, `close-time` | 1 | uint16 | 개폐기 총 열리는 시간(초), 닫히는 시간(초) |
-| `area-bitmap` | 2 | int32 | 양액기 구역 bitmap |
-| `epoch` | 2 | int32 | 세계시 시각 (Unix epoch) |
-| `sig-digit` | 1 | int16 (signed) | FND 표시 자릿수 |
-| `tz-offset` | 1 | int16 (signed) | 시각대 오프셋 (시 단위) |
-| `short` | 1 | uint16 | 일반 16-bit 값 (오류 코드 등) |
-| `vfloat` | 2 | float | 일반 float (확장용) |
-| `vint` | 1 | uint16 | 일반 short (확장용) |
+장비 규격의 `items` 배열에 쓰는 어휘는 **KS B 7958-4 부속서 A.3 (규정) 「레지스터 표현을
+위한 주요 단어」** 가 정본이다. 근거 열이 각 항목의 출처이며, 표준 미등재 항목은 `확장` 으로
+표시한다.
+
+| 아이템 | regs | 데이터 타입 | 용도 | 근거 |
+|--------|:----:|------------|------|------|
+| `value` | 2 | float (IEEE 754) | 센서 측정값 | P4 A.3 |
+| `event` | 1 | uint16 | 이벤트 발생기가 올린 이벤트 코드 (값은 제조사 기술규격) | P4 A.3 · P2 §6.1 표 3 |
+| `EC` | 2 | float | 양액기 EC | P4 A.3 |
+| `pH` | 2 | float | 양액기 pH | P4 A.3 |
+| `status` | 1 | uint16 | 상태 코드 | P4 A.3 |
+| `opid` | 1 | uint16 | 명령 ID (1-65535, 0 미사용) | P4 A.3 |
+| `operation` | 1 | uint16 | 명령 코드 | P4 A.3 |
+| `control` | 1 | uint16 | 제어권 | P4 A.3 |
+| `ratio`, `position` | 1 | uint16 | 스위치 비율 / 개폐기 위치 | P4 A.3 |
+| `area`, `alert` | 1 | uint16 | 양액기 zone / 경고 | P4 A.3 |
+| `zone-id` | 1 | uint16 | 노드가 위치한 농장 내 구역 식별자 (`0`=온실 외부) | P4 A.3 · P2 §6.2 표 4 |
+| `pos-x`, `pos-y`, `pos-z` | 2 | **int32 (signed)** | 위치 이동형 노드의 좌표 (cm) | P4 A.3 · P2 §6.2 표 4 |
+| `remain-time`, `hold-time`, `time` | 2 | uint32 | 잔여/유지/지속 시간 (초) | P4 A.3 |
+| `on-sec`, `remain-sec` | 2 | uint32 | 양액기 관수·잔여 시간(초) | P4 A.3 |
+| `start-area`, `stop-area` | 1 | uint16 | 양액기 관수 시작구역/종료구역 | P4 A.3 |
+| `open-time`, `close-time` | 1 | uint16 | 개폐기 총 열리는 시간(초), 닫히는 시간(초) | P4 A.3 |
+| `area-bitmap` | 2 | uint32 | 양액기 구역 bitmap | P4 A.3 |
+| `epoch` | 2 | uint32 | 세계시 시각 (Unix epoch) | P4 A.3 · P2 §6.3 표 8 |
+| `sig-digit` | 1 | int16 (signed) | 표시기가 실수를 표시할 때의 유효자릿수 | P4 A.3 · P2 §6.3 표 7 |
+| `tz-offset` | 1 | int16 (signed) | 시간대 오프셋 (시 단위, 한국 `+9`) | P4 A.3 · P2 §6.3 표 8 |
+| `short` | 1 | **int16 (signed)** | 표시기에 표시할 사용자 지정 정수 코드 | P4 A.3 · P2 §6.3 표 9 |
+| `blank` | 1 | uint16 (값 무시) | 사용하지 않는 레지스터 (자리 채움) | P4 A.3 |
+| `vfloat` | 2 | float | 일반 float — **ksspec 확장** (표준 미등재) | 확장 |
+| `vint` | 1 | uint16 | 일반 short — **ksspec 확장** (표준 미등재) | 확장 |
+
+#### `event` 와 `blank` 는 짝으로 쓴다
+
+이벤트 발생기(device code 24) 는 관측치 자리에 **float 이 아니라 1 레지스터짜리 UINT16
+이벤트 코드**를 싣는다.
+
+> 센서가 이벤트 발생기인 경우에는 FLOAT32이 아니라 UINT16 의 이벤트 코드를 기록한다.
+>
+> — KS B 7958-2 `2026-draft-rev5` 부속서 A.4 각주 c
+
+그런데 같은 부속서의 센서 슬롯은 **장비 종류와 무관하게 3 레지스터 고정 stride** 다
+(`202 + (3N-2)` 상태 / `202 + (3N-1)` 관측치·이벤트 코드 / `202 + (3N)`). 따라서 이벤트
+발생기를 `["status", "event"]` 로만 적으면 2 레지스터가 되어, §5.4 순차 주소 계산에서
+**뒤따르는 센서가 전부 한 칸씩 당겨진다.** 남는 한 칸을 `blank` 로 채워야 한다:
+
+```json
+"items": ["status", "event", "blank"]
+```
+
+`blank` 는 값을 갖지 않는다 — 파서는 자리만 소비하고 항목을 만들지 않는다.
+
+> **`event` 는 P4 `2026-draft-rev6` 에서 부속서 A.3 에 등재됐다** (`uint16 / 1` · 이벤트발생기 ·
+> 상태 영역). 같은 라운드에서 `tz-offset` 도 등재됐고 (`int16 / 1` · 표시기 · 제어 영역),
+> P2 `2026-draft-rev6` 이 표 3 의 `Status` · `Event` 를 소문자로 내리면서 두 부의 표기가
+> 정합됐다. 그 전까지 이 두 항목은 P2 규정 표에만 있던 미등재 어휘였다.
 
 ### 6.2 다중 레지스터 값 인코딩 (KS B 7958-1 §4.4)
 
@@ -313,7 +365,7 @@ registers[addr+1] = hi
 
 ### 6.3 Signed 항목
 
-`sig-digit`, `tz-offset` 은 16-bit signed 정수로 해석한다 (two's complement).
+`sig-digit`, `tz-offset`, `short` 는 16-bit signed 정수로 해석한다 (two's complement).
 파서는 sign-extend 처리해야 한다 — 그렇지 않으면 음수가 큰 unsigned 로 잘못
 읽힌다 (`-3` → `65533`).
 
@@ -495,6 +547,10 @@ for idx, dev_spec in enumerate(spec["Devices"]):
 
 > `Class` 가 바뀌는 경계(예: 센서 블록 → 양액기 블록)는 영역 분리로 보고 주소 검사를
 > 건너뛴다. `Devices` 가 빈 배열(자율배치) 이면 대조할 슬롯 정의가 없으므로 검사 대상이 아니다.
+
+> `unknown-type` 판정은 `codes.json` 의 `name` 과 **`deprecated-alias` 를 함께** 대조해야
+> 한다 (§4.1). 번들 vendor pack 의 device code 1 · 2 · 23 · 24 가 구 영문명을 유지하고
+> 있어, `name` 만 보면 이 4종이 미지 타입으로 떨어진다.
 
 > **참고 구현**: KSDevice 0.3.31+ 는 본 절의 표기와 검사를
 > `ksdevice.common.spec_validation.validate_node_spec()` 으로 제공하며, 서버
@@ -686,7 +742,7 @@ protocol-specific 과 단일 장비는 노드 protocol 이 일치할 때만 적�
 표준 간 충돌 시 **KS B 7958 (2024)** 이 우선한다.
 
 다음 표준들은 제정 협의 중 (P1~P5) 으로, 제정되면 본 표준들이 우선한다
-(P1 `2026-draft-rev4` / P2 · P4 `2026-draft-rev5` / P3 `2026-draft-rev3` /
+(P1 `2026-draft-rev4` / P2 · P4 `2026-draft-rev6` / P3 `2026-draft-rev3` /
 P5 `2026-draft-rev6` 기준 — rev2 에서 4부 → 5부로 재배치됨):
 
 - **KS B 7958-1** (P1) — 일반 요구사항

@@ -925,11 +925,12 @@
             "source": "KS B 7958-5:2027 부속서",
             "standard": "KS X 3267 / KS B 7958",
             "applies-to": "장비 정보 영역(devinfo)의 device code (SPEC.md §2.2 · §4.1 · §9)",
-            "note": "SPEC.md §4.1 이 참조만 하고 값을 싣지 않던 표다. 센서 24종 + 구동기 13종.",
+            "note": "SPEC.md §4.1 이 참조만 하고 값을 싣지 않던 표다. 센서 34종 + 구동기 12종. deprecated-alias 는 rev5 에서 영문 식별자가 바뀌기 전 표기이며, 번들 vendor pack 이 아직 그 표기를 쓴다 (SPEC.md §4.1).",
             "values": [
                 {
                     "code": 1,
                     "name": "air-temperature-sensor",
+                    "deprecated-alias": "temperature-sensor",
                     "scope": "센서",
                     "meaning": "온도센서 [°C]",
                     "std": "KS B 7958-5:2027",
@@ -943,6 +944,7 @@
                 {
                     "code": 2,
                     "name": "(relative-)humidity-sensor",
+                    "deprecated-alias": "humidity-sensor",
                     "scope": "센서",
                     "meaning": "(상대)습도센서 [%RH]",
                     "std": "KS B 7958-5:2027",
@@ -1333,6 +1335,7 @@
                 {
                     "code": 23,
                     "name": "battery-level-sensor",
+                    "deprecated-alias": "battery-sensor",
                     "scope": "센서",
                     "meaning": "배터리 잔량 센서 [%]",
                     "std": "KS B 7958-5:2027",
@@ -1359,6 +1362,7 @@
                 {
                     "code": 24,
                     "name": "event-detector",
+                    "deprecated-alias": "event-trigger",
                     "scope": "센서",
                     "meaning": "이벤트 발생기",
                     "std": "KS B 7958-5:2027",
