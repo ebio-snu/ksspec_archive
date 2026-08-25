@@ -1,6 +1,6 @@
 {
     "1": { "Class" : "sensor", "Type" : "temperature-sensor", "Model" : "SEN-TEMP", "Name" : "온도센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
-    "2": { "Class" : "sensor", "Type" : "humidity-sensor", "Model" : "SEN-HUM", "Name" : "습도센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
+    "2": { "Class" : "sensor", "Type" : "humidity-sensor", "Model" : "SEN-HUM", "Name" : "(상대)습도센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "3": { "Class" : "sensor", "Type" : "dewpoint-sensor", "Model" : "SEN-DEW", "Name" : "이슬점센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "4": { "Class" : "sensor", "Type" : "rain-detector", "Model" : "SEN-RAIN-D", "Name" : "감우센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "5": { "Class" : "sensor", "Type" : "cumulative-flow-sensor", "Model" : "SEN-FLOW", "Name" : "누적유량센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } },
@@ -11,9 +11,9 @@
     "10": { "Class" : "sensor", "Type" : "voltage-sensor", "Model" : "SEN-VOL", "Name" : "전압센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "11": { "Class" : "sensor", "Type" : "CO2-sensor", "Model" : "SEN-CO2", "Name" : "이산화탄소센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "12": { "Class" : "sensor", "Type" : "EC-sensor", "Model" : "SEN-EC", "Name" : "EC센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
-    "13": { "Class" : "sensor", "Type" : "quantum-sensor", "Model" : "SEN-QUAN", "Name" : "광량자센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
+    "13": { "Class" : "sensor", "Type" : "quantum-sensor", "Model" : "SEN-QUAN", "Name" : "광양자센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "14": { "Class" : "sensor", "Type" : "soil-moisture-sensor", "Model" : "SEN-SMOI", "Name" : "토양함수율센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
-    "15": { "Class" : "sensor", "Type" : "tensiometer", "Model" : "SEN-TEN", "Name" : "토양장력센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
+    "15": { "Class" : "sensor", "Type" : "tensiometer", "Model" : "SEN-TEN", "Name" : "토양수분장력센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "16": { "Class" : "sensor", "Type" : "pH-sensor", "Model" : "SEN-pH", "Name" : "pH센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "17": { "Class" : "sensor", "Type" : "soil-temperature-sensor", "Model" : "SEN-STEMP", "Name" : "지온센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }, 
     "18": { "Class" : "sensor", "Type" : "weight-sensor", "Model" : "SEN-WGT", "Name" : "무게센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } },
@@ -22,5 +22,15 @@
     "21": { "Class" : "sensor", "Type" : "watt-hour-meter", "Model" : "SEN-WHM", "Name" : "전력량계", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } },
     "22": { "Class" : "sensor", "Type" : "current-sensor", "Model" : "SEN-CUR", "Name" : "전류센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } },
     "23": { "Class" : "sensor", "Type" : "battery-sensor", "Model" : "SEN-BAT", "Name" : "배터리잔량센서", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } },
-    "24": { "Class" : "sensor", "Type" : "event-trigger", "Model" : "SEN-EVT", "Name" : "이벤트발생기", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } }
+    "24": { "Class" : "sensor", "Type" : "event-trigger", "Model" : "SEN-EVT", "Name" : "이벤트발생기", "CommSpec" : { "KS X 3267" : { "read" : { "items": ["value", "status"] } } } },
+    "25": { "Class" : "sensor", "Type" : "barometric-pressure-sensor", "Model" : "SEN-BARO", "Name" : "기압센서", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } },
+    "26": { "Class" : "sensor", "Type" : "wet-bulb-temperature-sensor", "Model" : "SEN-WBTEMP", "Name" : "습구온도센서", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } },
+    "27": { "Class" : "sensor", "Type" : "leaf-temperature-sensor", "Model" : "SEN-LTEMP", "Name" : "엽온센서", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } },
+    "28": { "Class" : "sensor", "Type" : "leaf-wetness-sensor", "Model" : "SEN-LWET", "Name" : "엽면습윤센서", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } },
+    "29": { "Class" : "sensor", "Type" : "stem-diameter-sensor", "Model" : "SEN-STEMD", "Name" : "줄기직경센서", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } },
+    "30": { "Class" : "sensor", "Type" : "fruit-diameter-sensor", "Model" : "SEN-FRTD", "Name" : "과실직경센서", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } },
+    "31": { "Class" : "sensor", "Type" : "fruit-length-sensor", "Model" : "SEN-FRTL", "Name" : "과실길이센서", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } },
+    "32": { "Class" : "sensor", "Type" : "brix-sensor", "Model" : "SEN-BRIX", "Name" : "당도센서", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } },
+    "33": { "Class" : "sensor", "Type" : "fruit-firmness-sensor", "Model" : "SEN-FIRM", "Name" : "과실경도센서", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } },
+    "34": { "Class" : "sensor", "Type" : "chlorophyll-sensor", "Model" : "SEN-CHL", "Name" : "엽록소센서", "CommSpec" : { "KS B 7958" : { "read" : { "items": ["status", "value"] } } } }
 }

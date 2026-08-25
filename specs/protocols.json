@@ -42,6 +42,25 @@
             "labels": ["KS X 3288"],
             "reason": "양액기는 KS X 3267 이 정의하지 않는다 — KS X 3288 이 정의한다. 따라서 protocol 10 노드에 달린 양액기도 라벨은 KS X 3288 이다. protocol 30·31 노드에서는 KS B 7958 을 그대로 쓴다.",
             "example": "specs/defaults/devices/actuator.spec 코드 201~205"
+        },
+        {
+            "device-codes": ["25", "26", "27", "28", "29", "30", "31", "32", "33", "34"],
+            "types": [
+                "barometric-pressure-sensor",
+                "wet-bulb-temperature-sensor",
+                "leaf-temperature-sensor",
+                "leaf-wetness-sensor",
+                "stem-diameter-sensor",
+                "fruit-diameter-sensor",
+                "fruit-length-sensor",
+                "brix-sensor",
+                "fruit-firmness-sensor",
+                "chlorophyll-sensor"
+            ],
+            "labels": ["KS B 7958"],
+            "reason": "센서 코드 25~34 는 KS B 7958-5:2027 (rev6) 이 신설한 장비다 — 2022 년 발행본인 KS X 3267 은 이들을 정의하지 않는다. 따라서 protocol 무관 baseline 파일에서도 라벨은 KS B 7958 이다. codes.json 의 device-type 에서 이 10 종의 protocols 는 30·31 뿐이고 tier 는 draft 이므로, 표준 발행 시 재확인할 것.",
+            "example": "specs/defaults/devices/sensor.spec 코드 25~34",
+            "note": "라벨을 따라 read items 배치도 KS B 7958 의 [\"status\", \"value\"] 를 쓴다 — KS X 3267 라벨의 [\"value\", \"status\"] 와 순서가 반대다 (SPEC.md §5.1: items 는 순서대로 배치)."
         }
     ]
 }
