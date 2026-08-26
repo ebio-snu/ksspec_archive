@@ -157,26 +157,42 @@
 
 전체 device code 표는 [`../specs/codes.json`](../specs/codes.json) 의 `device-type` 에 있다 (근거: KS B 7958-5 부속서 A.2 센서 정보 · A.3 구동기 정보 · §7.1). **참조가 아니라 데이터다** — 도구가 device code 를 상수로 들고 있으면 안 된다.
 
-#### 번들 vendor pack 이 구 영문명을 쓰는 코드가 있다 (의도적 보류)
+#### 구 영문명은 2026-08-26 부로 유효하지 않다
 
-`codes.json` 은 **KS B 7958-5 rev7 의 현행 영문명**을 싣지만, `specs/defaults/devices/`
-의 센서 템플릿 4종은 **구 영문명을 그대로 유지**하고 있다:
+rev5 가 device code 1 · 23 · 24 와 node type code 4 의 영문 식별자를 바꿨다. 코드값은
+그대로여서 통신은 깨지지 않지만 식별자를 키로 쓰는 구현물이 전부 영향을 받으므로, 그동안
+번들 vendor pack 은 구 표기를 유지해 왔다. **2026-08-26 자로 이 보류를 해제하고 전부
+현행명으로 정리했다.**
 
-| device code | `codes.json` (현행) | 템플릿 (유지) |
+| 코드 | 구 표기 (불허) | 현행명 |
 |---|---|---|
-| 1 | `air-temperature-sensor` | `temperature-sensor` |
-| 2 | `(relative-)humidity-sensor` | `humidity-sensor` |
-| 23 | `battery-level-sensor` | `battery-sensor` |
-| 24 | `event-detector` | `event-trigger` |
+| device 1 | `temperature-sensor` | `air-temperature-sensor` |
+| device 23 | `battery-sensor` | `battery-level-sensor` |
+| device 24 | `event-trigger` | `event-detector` |
+| node type 4 | `gateway-node` | `gateway` |
 
-**오타가 아니라 보류다.** rev5 가 이 4종의 영문 식별자를 바꿨는데 코드값은 그대로여서
-통신은 깨지지 않는 대신 식별자를 키로 쓰는 구현물이 전부 영향을 받는다. 표준 쪽에서
-구 표기의 별칭 병기 여부가 정해지기 전까지 배포된 `Type` 문자열을 바꾸지 않는다.
+구 표기는 각 값의 `deprecated-alias` 에 **데이터로 남아 있으나 유효값이 아니다**
+(`codes.json` 의 `alias-policy`). 검사 도구는 이 값을 정상 매칭 대상으로 삼지 않는다 —
+남겨 둔 이유는 진단 품질이다. 구 표기를 만나면 일반 `unknown-type` (§9.1.3) 대신
+**"구 표기다, 현행명 N 으로 바꾸라"** 로 안내할 수 있다.
 
-구 표기는 각 값의 `deprecated-alias` 에 **데이터로** 실려 있다. 검사 도구는 `Type` 을
-`name` 뿐 아니라 `deprecated-alias` 와도 대조해야 한다 — 그러지 않으면 이 4종이
-`unknown-type` (§9.1.3) 으로 떨어지고, **코드 0 으로 해석돼 슬롯 대조가 통째로 꺼진다**
-(§9.1.1 이 경고하는 상태).
+#### `also-accepted` — 표준이 허용하는 선택적 표기 (device code 2)
+
+device code 2 는 성격이 다르다. 표준 원문 표기가 `(relative-)humidity-sensor` /
+`(상대)습도센서` 인데, **괄호는 `relative-` 가 선택적이라는 편집 표기이지 식별자의
+일부가 아니다.** 따라서 두 철자 모두 **현행 유효값**이다:
+
+| 코드 | `name` (정본) | `also-accepted` |
+|---|---|---|
+| device 2 | `relative-humidity-sensor` | `humidity-sensor` |
+
+- **내보낼 때**는 `name` 을 쓴다 — 번들 vendor pack 이 그렇다.
+- **받을 때**는 `name` 과 `also-accepted` 를 **모두 받아들인다.**
+- `(relative-)humidity-sensor` 처럼 **괄호를 그대로 적지 않는다.** 표기 관례이지
+  식별자가 아니며, `Type` 문자열을 키·slug 로 쓸 수 없게 만든다.
+
+`deprecated-alias` 와 혼동하지 말 것 — 전자는 불허, 후자(`also-accepted`)는 허용이다.
+`alias-policy` 가 이 둘을 데이터로 구분한다.
 
 ### 4.2 구동기 level 의미
 
@@ -566,9 +582,10 @@ for idx, dev_spec in enumerate(spec["Devices"]):
 > `Class` 가 바뀌는 경계(예: 센서 블록 → 양액기 블록)는 영역 분리로 보고 주소 검사를
 > 건너뛴다. `Devices` 가 빈 배열(자율배치) 이면 대조할 슬롯 정의가 없으므로 검사 대상이 아니다.
 
-> `unknown-type` 판정은 `codes.json` 의 `name` 과 **`deprecated-alias` 를 함께** 대조해야
-> 한다 (§4.1). 번들 vendor pack 의 device code 1 · 2 · 23 · 24 가 구 영문명을 유지하고
-> 있어, `name` 만 보면 이 4종이 미지 타입으로 떨어진다.
+> `unknown-type` 판정은 `codes.json` 의 `name` 과 **`also-accepted` 를 함께** 대조한다
+> (§4.1). `deprecated-alias` 는 **대조 대상이 아니다** — 2026-08-26 부로 유효값이 아니며
+> (`alias-policy`), 매칭하면 폐기된 표기가 통과된다. 다만 그 값과 일치하면 일반
+> `unknown-type` 대신 구 표기 전용 진단으로 안내하는 편이 낫다.
 
 > **참고 구현**: KSDevice 0.3.31+ 는 본 절의 표기와 검사를
 > `ksdevice.common.spec_validation.validate_node_spec()` 으로 제공하며, 서버
@@ -693,7 +710,7 @@ write 영역은 두 protocol 이 같다 — 제어 명령이 항상 첫 칸이�
 {
     "1": {
         "Class": "sensor",
-        "Type": "temperature-sensor",
+        "Type": "air-temperature-sensor",
         "Model": "SEN-TEMP",
         "Name": "온도센서",
         "CommSpec": { "KS X 3267": { "read": { "items": ["value", "status"] } } }
@@ -713,7 +730,7 @@ write 영역은 두 protocol 이 같다 — 제어 명령이 항상 첫 칸이�
 ```jsonc
 {
     "1": {
-        "Class": "sensor", "Type": "temperature-sensor",
+        "Class": "sensor", "Type": "air-temperature-sensor",
         "CommSpec": { "KS B 7958": { "read": { "items": ["value", "status", "tz-offset"] } } }
     }
 }
@@ -735,7 +752,7 @@ write 영역은 두 protocol 이 같다 — 제어 명령이 항상 첫 칸이�
 // 0_0_0_1_31.spec — 온도센서 protocol 31 전용
 {
     "Class": "sensor",
-    "Type": "temperature-sensor",
+    "Type": "air-temperature-sensor",
     "CommSpec": {
         "KS B 7958": { "read": { "items": ["value", "status", "tz-offset"] } }
     }

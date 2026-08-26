@@ -36,12 +36,18 @@
         "missing": [],
         "note": "tier=draft 항목은 KS B 7958-5:2027 제정 전(rev7) 값이다. 발행 시 재확인이 필요하며, 소비처는 draft 값에 근거한 판정을 단정하지 말 것."
     },
+    "alias-policy": {
+        "effective": "2026-08-26",
+        "deprecated-alias": "reject",
+        "also-accepted": "accept",
+        "note": "**`deprecated-alias` 값은 2026-08-26 부로 유효하지 않다.** rev5 가 영문 식별자를 바꾼 항목(device-type 1 · 23 · 24, product-type 4)의 구 표기이며, 번들 vendor pack 은 전부 현행명으로 정리됐다. 검사 도구는 이 값을 **정상 매칭 대상으로 삼지 않는다** — 다만 데이터로 남겨 두었으므로, 구 표기를 만나면 일반 `unknown-type` 대신 \"구 표기다, 현행명 N 으로 바꾸라\" 로 진단할 수 있다. 반면 `also-accepted` 는 표준 원문이 선택적 표기를 허용하는 항목의 **또 다른 현행 유효값**이므로 정상 매칭 대상이다."
+    },
     "codes": {
         "product-type": {
             "source": "KS B 7958-5:2027 부속서",
             "standard": "KS X 3267 / KS B 7958",
             "applies-to": "노드 정보 영역의 제품 타입 (SPEC.md §2.1 `type` · §3.1)",
-            "note": "코드 4(게이트웨이 노드)는 KS B 7958-5 만 정의한다 — KS X 3267 부속서 B.1 은 1~3 뿐이다. 코드 4 는 KS B 7958-5 rev7 에서 국문 \"게이트웨이\" / 영문 `gateway` 로 정리됐다 — 구 표기 `gateway-node` 는 deprecated-alias 로 남긴다.",
+            "note": "코드 4(게이트웨이 노드)는 KS B 7958-5 만 정의한다 — KS X 3267 부속서 B.1 은 1~3 뿐이다. 코드 4 는 KS B 7958-5 rev7 에서 국문 \"게이트웨이\" / 영문 `gateway` 로 정리됐다 — 구 표기 `gateway-node` 는 deprecated-alias 로 남기되 2026-08-26 부로 유효값이 아니다(`alias-policy`).",
             "values": [
                 {
                     "code": 1,
@@ -926,7 +932,7 @@
             "source": "KS B 7958-5:2027 부속서",
             "standard": "KS X 3267 / KS B 7958",
             "applies-to": "장비 정보 영역(devinfo)의 device code (SPEC.md §2.2 · §4.1 · §9)",
-            "note": "SPEC.md §4.1 이 참조만 하고 값을 싣지 않던 표다. 센서 34종 + 구동기 12종. deprecated-alias 는 rev5 에서 영문 식별자가 바뀌기 전 표기이며, 번들 vendor pack 이 아직 그 표기를 쓴다 (SPEC.md §4.1).",
+            "note": "SPEC.md §4.1 이 참조만 하고 값을 싣지 않던 표다. 센서 34종 + 구동기 12종. deprecated-alias 는 rev5 에서 영문 식별자가 바뀌기 전 표기로, **2026-08-26 부로 유효값이 아니다** — 번들 vendor pack 은 이날 전부 현행명으로 정리했다 (`alias-policy` · SPEC.md §4.1). code 2 의 `also-accepted` 는 성격이 다르다 — 표준 원문이 허용하는 선택적 표기이며 현행 유효값이다.",
             "values": [
                 {
                     "code": 1,
@@ -944,8 +950,11 @@
                 },
                 {
                     "code": 2,
-                    "name": "(relative-)humidity-sensor",
-                    "deprecated-alias": "humidity-sensor",
+                    "name": "relative-humidity-sensor",
+                    "also-accepted": [
+                        "humidity-sensor"
+                    ],
+                    "name-note": "표준 원문 표기는 `(relative-)humidity-sensor` / `(상대)습도센서` 로, 괄호는 `relative-` 가 **선택적**이라는 편집 표기이지 식별자의 일부가 아니다. 따라서 두 철자 모두 현행 유효값이며 `also-accepted` 로 싣는다 — deprecated-alias 와 성격이 다르다(§4.1).",
                     "scope": "센서",
                     "meaning": "(상대)습도센서 [%RH]",
                     "std": "KS B 7958-5:2027",
