@@ -1,6 +1,6 @@
 {
   "Class" : "node",
-  "Type" : "gateway-node/level1",
+  "Type" : "gateway/level1",
   "Model" : "DEF-GWNODE-001",
   "Name" : "디폴트 게이트웨이노드",
   "ConnectedNodes" : [
@@ -64,7 +64,7 @@
     {
       "unit-id": 5,
       "Class" : "node",
-      "Type" : "nutrient-node/level0",
+      "Type" : "integrated-node/level0",
       "Model" : "DEF-NUTNODE",
       "Name" : "양액기노드",
       "CommSpec" : {

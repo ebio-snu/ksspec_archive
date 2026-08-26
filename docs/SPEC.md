@@ -110,9 +110,19 @@
 | `sensor-node/level0..1` | 센서 노드 (type=1) |
 | `actuator-node/level0..1`, `actuator-node/auto` | 구동기 노드 (type=2) |
 | `integrated-node/level1` | 복합 노드 (type=3) — 센서와 구동기를 함께 단다 |
-| `gateway-node/level0..1` | 게이트웨이 노드 (type=4) |
+| `gateway/level0..1` | 게이트웨이 (type=4) |
 
-`level` 은 KS 표준이 정의한 기능 등급 (level 0=수동, 1=기본 제어, 2+=고급).
+노드 종류의 이름은 **KS B 7958-5 부속서 A.1** 이 정본이다 (`codes.json` 의 `product-type`).
+코드 4 는 rev7 에서 국문 "게이트웨이" / 영문 `gateway` 로 정리됐다 — 구 표기 `gateway-node`
+는 `deprecated-alias` 로 남아 있으니, 검사 도구는 §4.1 의 device code 와 같은 방식으로
+둘 다 대조해야 한다.
+
+> **`level` 접미사는 본 형식의 확장이다.** P5 부속서 A.1 의 노드 영문명에는 레벨이 없고
+> (`sensor-node` · `actuator-node` · `integrated-node` · `gateway`), P4 부속서 B 의 예시도
+> 레벨 없이 적는다. 레벨을 붙이는 것은 노드의 기능 등급(0=수동, 1=기본 제어, 2+=고급)을
+> 장비 규격 안에서 구분하기 위한 본 저장소의 관례이며, `Type` 을 코드로 되돌릴 때는
+> 접미사를 떼고 대조한다. 장비의 `level` (§4.2, `switch/level0..2` 등) 은 P5 부속서 A.3 이
+> 정의하는 **표준 값**이므로 성격이 다르다.
 
 **노드의 `level` 과 장비의 `level` (§4.2) 은 별개다.** 예컨대 `0_0_3_5_31_21.spec` 은
 노드 자체는 `integrated-node/level1` 이면서 슬롯에 `nutrient-supply/level4` 를 단다 —
@@ -591,10 +601,10 @@ for idx, dev_spec in enumerate(spec["Devices"]):
 ```json
 {
     "Class": "node",
-    "Type": "gateway-node/level1",
+    "Type": "gateway/level1",
     "CommSpec": {
         "KS B 7958": {
-            "read":  { "starting-register": 201, "items": ["status", "opid"] },
+            "read":  { "starting-register": 201, "items": ["opid", "status"] },
             "write": { "starting-register": 501, "items": ["operation", "opid"] }
         }
     },
@@ -605,7 +615,7 @@ for idx, dev_spec in enumerate(spec["Devices"]):
             "Type": "sensor-node/level0",
             "CommSpec": {
                 "KS B 7958": {
-                    "read":  { "starting-register": 203, "items": ["status", "opid", "control"] },
+                    "read":  { "starting-register": 203, "items": ["opid", "status", "control"] },
                     "write": { "starting-register": 503, "items": ["operation", "opid", "control"] }
                 }
             }
@@ -617,7 +627,11 @@ for idx, dev_spec in enumerate(spec["Devices"]):
 ### 10.2 자동 발견 모드
 
 `ConnectedNodes` 를 생략하면 파서가 unit_id 2..max_devices+1 범위를 스캔해 자식
-노드를 자동 발견. 자식의 `starting-register` 는 게이트웨이 장비 규격의 `CommSpec` 에서
+노드를 자동 발견.
+
+> **빈 배열 `[]` 은 생략과 다르다** — "자식이 없다" 는 명시적 선언으로 읽는다.
+> `Devices: []` 가 자율배치를 뜻하는 것(§9.2)과 정반대이므로 혼동하지 말 것.
+> 자동 발견을 원하면 **키 자체를 적지 않는다.** 자식의 `starting-register` 는 게이트웨이 장비 규격의 `CommSpec` 에서
 **자동 계산**:
 
 ```
@@ -628,20 +642,35 @@ child[N].starting-register
       base
 ```
 
-| Protocol | 게이트웨이 자체 영역 (read items) | 자체 영역 크기 | 자식 N=1 (uid=2) read 시작 |
-|----------|-------------------------------------|----------------|------------------------------|
-| 30       | `[]` (없음) | 0 칸 | 201 |
-| 31+      | `["status", "opid"]` | 2 칸 | 203 |
+| Protocol | 게이트웨이 자체 영역 (read items) | 자체 영역 크기 | 자식 N=1 (uid=2) read 시작 | 자식 read items |
+|----------|-------------------------------------|----------------|------------------------------|-----------------|
+| 30       | 없음 (`items` 를 적지 않는다) | 0 칸 | 201 | `["status", "opid", "control"]` |
+| 31+      | `["opid", "status"]` | 2 칸 | 203 | `["opid", "status", "control"]` |
 
 write 영역도 동일 공식 (base=501, 31+ 는 503 부터).
+
+> **자식 영역의 항목 순서가 protocol 마다 다르다.** protocol 30 은 KS B 7958:2024 발행본
+> 계열(해설서 §5.2 표 A.3 — 상태 · 명령 ID · 제어권)이고, protocol 31 은 KS B 7958-1
+> `2026-draft-rev5` 부속서 A.5 가 **명령식별자 · 상태 · 제어권** 으로 정리했다. 같은
+> 라운드에서 게이트웨이 자체 영역(부속서 A.3)도 `opid` 가 앞으로 오도록 통일됐고,
+> P4 부속서 B.1 예시와도 일치한다. **값의 크기는 3 register 로 같으므로 주소 계산은
+> 영향을 받지 않는다 — 바뀌는 것은 해석뿐이다.**
 
 만약 새 protocol 32 가 자체 영역 4칸을 정의하면 장비 규격의 `items` 만 4 개 채우면 된다 —
 형식 자체가 protocol 분기를 데이터에 위임한다.
 
 ### 10.3 자식 영역 구조
 
-각 자식 노드의 게이트웨이 read 영역은 항상 3 register: `[status, opid, control]`.
-write 영역도 3 register: `[operation, opid, control]`.
+각 자식 노드의 게이트웨이 read 영역은 항상 3 register, write 영역도 3 register다.
+**항목 순서는 protocol 에 따라 다르다** (§10.2 의 표와 그 아래 주석):
+
+| Protocol | read | write |
+|---|---|---|
+| 30 | `[status, opid, control]` | `[operation, opid, control]` |
+| 31+ | `[opid, status, control]` | `[operation, opid, control]` |
+
+write 영역은 두 protocol 이 같다 — 제어 명령이 항상 첫 칸이다
+(KS B 7958-1 부속서 A.6 · 해설서 §5.2 표 A.4).
 
 ---
 
@@ -685,6 +714,11 @@ write 영역도 3 register: `[operation, opid, control]`.
 
 - 같은 dict 구조
 - 노드 protocol 일치 시에만 활성화
+- **부분 정의여도 된다** — 그 protocol 에서 baseline 과 달라지는 코드만 싣고, 나머지는
+  §11.4 의 우선순위에 따라 generic 파일이 그대로 적용된다. `actuator_31.spec` 이 그
+  예다: 개폐기 레벨2(코드 113) 한 종만 정의한다. protocol 31 의 상태 영역이 KS B 7958-2
+  부속서 B.7 에 따라 `open-time` · `close-time` 까지 7 register 를 쓰기 때문이며, 나머지
+  구동기는 `actuator.spec` 의 정의가 그대로 유효하다.
 
 ### 11.3 단일 장비 파일
 

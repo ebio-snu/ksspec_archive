@@ -1,11 +1,11 @@
 {
   "Class" : "node",
-  "Type" : "gateway-node/level1",
+  "Type" : "gateway/level1",
   "Model" : "DEF-GWNODE-001",
   "Name" : "디폴트 게이트웨이노드",
   "CommSpec" : {
     "KS B 7958" : {
-      "read" : { "starting-register" : 201, "items": ["status", "opid"] },
+      "read" : { "starting-register" : 201, "items": ["opid", "status"] },
       "write" : { "starting-register" : 501, "items": ["operation", "opid"] }
      }
   },
@@ -20,7 +20,7 @@
         "KS B 7958" : {
           "read" : {
             "starting-register" : 203,
-            "items": ["status", "opid", "control"]
+            "items": ["opid", "status", "control"]
           },
           "write" : {
             "starting-register" : 503,
@@ -39,7 +39,7 @@
         "KS B 7958" : {
           "read" : {
             "starting-register" : 206,
-            "items": ["status", "opid", "control"]
+            "items": ["opid", "status", "control"]
           },
           "write" : {
             "starting-register" : 506,
@@ -58,7 +58,7 @@
         "KS B 7958" : {
           "read" : {
             "starting-register" : 209,
-            "items": ["status", "opid", "control"]
+            "items": ["opid", "status", "control"]
           },
           "write" : {
             "starting-register" : 509,
@@ -70,14 +70,14 @@
     {
       "unit-id": 5,
       "Class" : "node",
-      "Type" : "nutrient-node/level0",
+      "Type" : "integrated-node/level0",
       "Model" : "DEF-NUTNODE",
       "Name" : "양액기노드",
       "CommSpec" : {
         "KS B 7958" : {
           "read" : {
             "starting-register" : 212,
-            "items": ["status", "opid", "control"]
+            "items": ["opid", "status", "control"]
           },
           "write" : {
             "starting-register" : 512,
