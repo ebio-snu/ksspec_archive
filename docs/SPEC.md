@@ -714,6 +714,11 @@ write 영역은 두 protocol 이 같다 — 제어 명령이 항상 첫 칸이�
 
 - 같은 dict 구조
 - 노드 protocol 일치 시에만 활성화
+- **부분 정의여도 된다** — 그 protocol 에서 baseline 과 달라지는 코드만 싣고, 나머지는
+  §11.4 의 우선순위에 따라 generic 파일이 그대로 적용된다. `actuator_31.spec` 이 그
+  예다: 개폐기 레벨2(코드 113) 한 종만 정의한다. protocol 31 의 상태 영역이 KS B 7958-2
+  부속서 B.7 에 따라 `open-time` · `close-time` 까지 7 register 를 쓰기 때문이며, 나머지
+  구동기는 `actuator.spec` 의 정의가 그대로 유효하다.
 
 ### 11.3 단일 장비 파일
 

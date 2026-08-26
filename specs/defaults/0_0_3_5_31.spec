@@ -7,7 +7,7 @@
     "KS B 7958" : {
       "read" : {
         "starting-register" : 201,
-        "items": ["status", "opid", "control"]
+        "items": ["opid", "status", "control"]
       },
       "write" : {
         "starting-register" : 501,

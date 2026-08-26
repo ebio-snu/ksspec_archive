@@ -64,7 +64,7 @@
     {
       "unit-id": 5,
       "Class" : "node",
-      "Type" : "nutrient-node/level0",
+      "Type" : "integrated-node/level0",
       "Model" : "DEF-NUTNODE",
       "Name" : "양액기노드",
       "CommSpec" : {
