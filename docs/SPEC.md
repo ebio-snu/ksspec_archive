@@ -99,7 +99,7 @@
 | `Type` | string | 노드 종류 (§3.1) |
 | `Model` | string | 모델명 (자유) |
 | `Name` | string | 사람 읽기 이름 |
-| `CommSpec` | object | 노드 자체 통신 영역 (§5) |
+| `CommSpec` | object | 노드 자체 통신 영역 (§5) — 자체 영역이 없는 노드(protocol 30 게이트웨이)는 **적지 않는다** (§10.2) |
 | `Devices` | array | 슬롯별 장비 규격 — 비우면 자율배치 (§9) |
 | `ConnectedNodes` | array | 게이트웨이의 자식 노드 목록 (§10) — 게이트웨이만 |
 
@@ -159,7 +159,7 @@
 
 #### 번들 vendor pack 이 구 영문명을 쓰는 코드가 있다 (의도적 보류)
 
-`codes.json` 은 **KS B 7958-5 rev6 의 현행 영문명**을 싣지만, `specs/defaults/devices/`
+`codes.json` 은 **KS B 7958-5 rev7 의 현행 영문명**을 싣지만, `specs/defaults/devices/`
 의 센서 템플릿 4종은 **구 영문명을 그대로 유지**하고 있다:
 
 | device code | `codes.json` (현행) | 템플릿 (유지) |
@@ -434,7 +434,7 @@ KS X 3267 범위 밖이며 **KS B 7958-5 부속서 B.3** 이 정의한다 — `c
 | 근거 | tier | protocol | 내용 |
 |---|---|---|---|
 | **KS X 3267:2022 부속서 B** (발행본) | `normative` | `10` | 제품 타입 · 상태 · 명령 · 제어권 |
-| **KS B 7958-5:2027 부속서 A·B** (제정 협의 중, `2026-draft-rev6`) | `draft` | `30` · `31` | 위 전부 + **양액기 경보(`alert`)** · **device code(`device-type`)** · 게이트웨이 노드 타입 |
+| **KS B 7958-5:2027 부속서 A·B** (제정 협의 중, `2026-draft-rev7`) | `draft` | `30` · `31` | 위 전부 + **양액기 경보(`alert`)** · **device code(`device-type`)** · 게이트웨이 노드 타입 |
 
 부속서 A·B 는 **규정(normative) 부속서**이나 **표준 자체가 발행 전**이다. 원문 초안(docx)은
 아카이브에 두지 않고 값만 싣는다. **`draft` 값은 발행 시 바뀔 수 있다.**
@@ -631,8 +631,9 @@ for idx, dev_spec in enumerate(spec["Devices"]):
 
 > **빈 배열 `[]` 은 생략과 다르다** — "자식이 없다" 는 명시적 선언으로 읽는다.
 > `Devices: []` 가 자율배치를 뜻하는 것(§9.2)과 정반대이므로 혼동하지 말 것.
-> 자동 발견을 원하면 **키 자체를 적지 않는다.** 자식의 `starting-register` 는 게이트웨이 장비 규격의 `CommSpec` 에서
-**자동 계산**:
+> 자동 발견을 원하면 **키 자체를 적지 않는다.**
+
+자식의 `starting-register` 는 게이트웨이 장비 규격의 `CommSpec` 에서 **자동 계산**:
 
 ```
 child[N].starting-register
@@ -644,10 +645,16 @@ child[N].starting-register
 
 | Protocol | 게이트웨이 자체 영역 (read items) | 자체 영역 크기 | 자식 N=1 (uid=2) read 시작 | 자식 read items |
 |----------|-------------------------------------|----------------|------------------------------|-----------------|
-| 30       | 없음 (`items` 를 적지 않는다) | 0 칸 | 201 | `["status", "opid", "control"]` |
+| 30       | 없음 (`CommSpec` 자체를 적지 않는다) | 0 칸 | 201 | `["status", "opid", "control"]` |
 | 31+      | `["opid", "status"]` | 2 칸 | 203 | `["opid", "status", "control"]` |
 
 write 영역도 동일 공식 (base=501, 31+ 는 503 부터).
+
+> **자체 영역이 없으면 `CommSpec` 을 적지 않는다.** protocol 30 게이트웨이가 그렇다.
+> `Σ(self_items.register_size)` 는 0 이 되고 자식은 `base` 부터 바로 시작한다.
+> `"items": []` 인 region 을 적어도 크기는 같지만, **없는 영역을 있는 것처럼 적지 않는다** —
+> `0_0_4_0_30.spec` · `0_0_4_0_30_4.spec` 두 파일 모두 `CommSpec` 이 없다.
+> 노드 장비 규격에서 `CommSpec` 이 생략 가능한 것은 이 경우뿐이다 (§3).
 
 > **자식 영역의 항목 순서가 protocol 마다 다르다.** protocol 30 은 KS B 7958:2024 발행본
 > 계열(해설서 §5.2 표 A.3 — 상태 · 명령 ID · 제어권)이고, protocol 31 은 KS B 7958-1
@@ -784,8 +791,8 @@ protocol-specific 과 단일 장비는 노드 protocol 이 일치할 때만 적�
 표준 간 충돌 시 **KS B 7958 (2024)** 이 우선한다.
 
 다음 표준들은 제정 협의 중 (P1~P5) 으로, 제정되면 본 표준들이 우선한다
-(P1 `2026-draft-rev4` / P2 · P4 `2026-draft-rev6` / P3 `2026-draft-rev3` /
-P5 `2026-draft-rev6` 기준 — rev2 에서 4부 → 5부로 재배치됨):
+(P1 `2026-draft-rev5` / P2 `2026-draft-rev6` / P3 `2026-draft-rev3` /
+P4 · P5 `2026-draft-rev7` 기준 — rev2 에서 4부 → 5부로 재배치됨):
 
 - **KS B 7958-1** (P1) — 일반 요구사항
 - **KS B 7958-2** (P2) — 부가 장비와 추가 기능

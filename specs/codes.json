@@ -15,13 +15,13 @@
             "designation": "KS B 7958-5:2027 (제5부: 코드일람표)",
             "annex": "부속서 A (규정) 장비 코드 일람표 — A.1 노드의 종류 · A.2 센서 정보 · A.3 구동기 정보 / 부속서 B (규정) 일반 코드 일람표 — B.1 상태 · B.2 제어권 · B.3 명령 · B.4 양액공급기 경보",
             "tier": "draft",
-            "status": "제정 협의 중 — 2026-draft-rev6 기준",
+            "status": "제정 협의 중 — 2026-draft-rev7 기준",
             "protocols": [
                 "30",
                 "31"
             ],
-            "source-document": "standards/standard_archive/greenhouse/KS-B-7958-5/2026-draft-rev6/",
-            "note": "**부속서 A·B 는 규정(normative) 부속서이나 표준 자체가 발행 전이다.** rev6 기준이며 발행 시 값·이름이 바뀔 수 있다. 소비처는 tier 를 확인하고 draft 값에 근거한 판정을 단정하지 말 것."
+            "source-document": "standards/standard_archive/greenhouse/KS-B-7958-5/2026-draft-rev7/",
+            "note": "**부속서 A·B 는 규정(normative) 부속서이나 표준 자체가 발행 전이다.** rev7 기준이며 발행 시 값·이름이 바뀔 수 있다. 소비처는 tier 를 확인하고 draft 값에 근거한 판정을 단정하지 말 것. rev6 → rev7 의 변경은 부속서 A.1 코드 4 의 영문명(`gateway-node` → `gateway`) 하나뿐이다 — A.2 센서 정보 · A.3 구동기 정보와 부속서 B 는 rev6 과 동일하다."
         }
     },
     "coverage": {
@@ -34,7 +34,7 @@
             "device-type"
         ],
         "missing": [],
-        "note": "tier=draft 항목은 KS B 7958-5:2027 제정 전(rev6) 값이다. 발행 시 재확인이 필요하며, 소비처는 draft 값에 근거한 판정을 단정하지 말 것."
+        "note": "tier=draft 항목은 KS B 7958-5:2027 제정 전(rev7) 값이다. 발행 시 재확인이 필요하며, 소비처는 draft 값에 근거한 판정을 단정하지 말 것."
     },
     "codes": {
         "product-type": {
@@ -1535,9 +1535,9 @@
     },
     "interop-notes": {
         "description": "표준 간 · 표준↔구현 간 코드 해석이 갈리는 지점. **코드 정의가 아니다** — 값은 이 파일의 codes 블록이 정본이다. 오진을 막기 위한 주의 사항이다.",
-        "observed-2026-08-17": [
+        "observed-2026-08-26": [
             "KS X 3267:2022 부속서 B (발행본)",
-            "KS B 7958-5:2027 부속서 A·B (2026-draft-rev6)",
+            "KS B 7958-5:2027 부속서 A·B (2026-draft-rev7)",
             "ksdevice 참조 구현",
             "FarmOS v5 message-codes 스냅샷(구현)"
         ],
